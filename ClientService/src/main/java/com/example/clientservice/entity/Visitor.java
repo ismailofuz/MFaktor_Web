@@ -1,4 +1,4 @@
-package com.example.catalogservice.entity;
+package com.example.clientservice.entity;
 
 import lombok.*;
 
@@ -13,12 +13,19 @@ import javax.persistence.Id;
 @Setter
 @ToString
 @Entity
-public class AdsSource {
+
+public class Visitor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    private String name;
+    private String firstName;
 
-    //private boolean active = true;
+    private String lastName;
+
+    private String phoneNumber;
+
+    private String organization;
+
+    private Character gender;
 }

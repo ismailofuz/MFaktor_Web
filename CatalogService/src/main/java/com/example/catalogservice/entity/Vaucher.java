@@ -3,8 +3,8 @@ package com.example.catalogservice.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.util.Date;
+
 
 @AllArgsConstructor
 @NoArgsConstructor

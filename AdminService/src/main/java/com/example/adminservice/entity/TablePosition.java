@@ -1,4 +1,4 @@
-package com.example.catalogservice.entity;
+package com.example.adminservice.entity;
 
 import lombok.*;
 
@@ -13,12 +13,12 @@ import javax.persistence.Id;
 @Setter
 @ToString
 @Entity
-public class AdsSource {
+public class TablePosition {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
 
-    //private boolean active = true;
+    private Integer count;
 }
