@@ -1,7 +1,6 @@
 package com.example.adminservice.entity;
 
 import lombok.*;
-import org.bouncycastle.util.Times;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

@@ -18,13 +18,21 @@ public class Speaker {
     @OneToOne
     private Attachment attachment;
 
+    @Column(nullable = false)
     private String firstName;
+
+    @Column(nullable = false)
     private String lastName;
+
     private String middleName;
+
     private String companyName;
+
     private String position;
+
     private String bio;
 
+    @Column(unique = true, nullable = false)
     private String phoneNumber;
 }
 

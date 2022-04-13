@@ -43,7 +43,8 @@ public class AdsSourceService {
             AdsSource adsSource = optionalAdsSource.get();
             if (!exists) {
                 adsSource.setName(dto.getName());
-                return new ApiResponse("Succesfully edited!", true);
+                adsSourceRepository.save(adsSource);
+                return new ApiResponse("Successfully edited!", true);
             }
         }
         return new ApiResponse("This ads source already exists!", false);
