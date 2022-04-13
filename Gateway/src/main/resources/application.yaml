@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: catalogModule
+          uri: lb://CATALOG
+          predicates:
+            - Path=/api/catalog/**
+        - id: botModule
+          uri: lb://BOT
+          predicates:
+            - Path=/api/bot/**
+        - id: adminModule
+          uri: lb://ADMIN
+          predicates:
+            - Path=/api/admin/**
+        - id: clientModule
+          uri: lb://CLIENT
+          predicates:
+            - Path=/api/client/**
+server:
+  port: 8080

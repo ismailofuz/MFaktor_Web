@@ -16,9 +16,15 @@ public class AdsSourceController {
     AdsSourceService adsSourceService;
 
     @PostMapping
-    public HttpEntity<?> add(@RequestBody AdsSourceDto dto){
+    public HttpEntity<?> add(@RequestBody AdsSourceDto dto) {
         ApiResponse response = adsSourceService.add(dto);
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}")
+    public HttpEntity<?> edit(@PathVariable Integer id, @RequestBody AdsSourceDto dto) {
+        ApiResponse edit = adsSourceService.edit(id, dto);
+        return ResponseEntity.ok(edit);
     }
 
    /* @PutMapping("/{id}")
@@ -33,14 +39,14 @@ public class AdsSourceController {
         return ResponseEntity.ok(delete);
     }*/
 
-   /* @GetMapping
-    public HttpEntity<?> getAll(){
-        ApiResponse all = adsSourceService.getAll();
-        return ResponseEntity.ok(all);
-    }*/
+    /* @GetMapping
+     public HttpEntity<?> getAll(){
+         ApiResponse all = adsSourceService.getAll();
+         return ResponseEntity.ok(all);
+     }*/
     @GetMapping("/{id}")
-    public HttpEntity<?> getOne(@PathVariable Integer id){
+    public HttpEntity<?> getOne(@PathVariable Integer id) {
         ApiResponse response = adsSourceService.getOne(id);
-        return ResponseEntity.status(response.isSuccess()?200:409).body(response);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 409).body(response);
     }
 }

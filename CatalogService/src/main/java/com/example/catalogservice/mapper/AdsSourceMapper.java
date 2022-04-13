@@ -8,10 +8,10 @@ import org.mapstruct.ReportingPolicy;
 import org.springframework.stereotype.Component;
 
 @Component
-@Mapper(componentModel = "spring",unmappedTargetPolicy = ReportingPolicy.WARN)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.WARN)
 public interface AdsSourceMapper {
 
-   // @Mapping(source = "active",target = "isActive")
+    // @Mapping(source = "active",target = "isActive")
     AdsSourceDto toDto(AdsSource adsSource);
 
     //@Mapping(source = "isActive",target = "active")
