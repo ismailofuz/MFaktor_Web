@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ApiResponse {
+public class ApiResponse <T>{
     private String message;
     private boolean success;
-    private Object object;
+    private T data;
 
     public ApiResponse(String message, boolean success) {
         this.message = message;

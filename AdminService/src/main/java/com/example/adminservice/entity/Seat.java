@@ -2,6 +2,7 @@ package com.example.adminservice.entity;
 //package com.example.clientservice.entity;
 
 import com.example.adminservice.entity.enums.Status;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,15 +21,25 @@ public class Seat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(unique = true)
+    private String name;
+
+    private Double price; // narxi
+
     @ManyToOne
     private Event event;
+
+    private Integer raw;
 
     //@ManyToOne
     //private User user;
 
-
     // @ManyToOne
     //private Visitor visitor;
+
+    @JsonIgnore
+    @ManyToOne
+    private Template template;
 
 
     @Enumerated(EnumType.STRING)

@@ -1,5 +1,6 @@
 package com.example.adminservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,9 +20,23 @@ public class Template {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(unique = true)  // unique bo'lishi kerak
     private String name;
-    private Integer count;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Rows> schema;
+    private Integer count; // default
+
+//    @JsonIgnore
+    @OneToMany(mappedBy = "template")
+    private List<Seat> seats;
+
+    private Integer countOfChairsInRaw;
+
+
+    private boolean priceByPlace;  // joy bo'yicha
+
+    private Double maxPrice;
+
+    private Double minPrice;
+
 }
+
