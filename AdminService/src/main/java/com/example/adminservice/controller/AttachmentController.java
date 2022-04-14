@@ -2,6 +2,7 @@ package com.example.adminservice.controller;
 
 import com.example.adminservice.entity.Attachment;
 import com.example.adminservice.entity.AttachmentContent;
+import com.example.adminservice.exceptions.ResourceNotFoundException;
 import com.example.adminservice.payload.ApiResponse;
 import com.example.adminservice.repository.AttachmentContentRepository;
 import com.example.adminservice.repository.AttachmentRepository;
@@ -88,6 +89,8 @@ public class AttachmentController {
                 response.setContentType(attachment.getContentType());
                 FileCopyUtils.copy(attachmentContent.getAsosiyContent(), response.getOutputStream());
             }
+        } else {
+            throw new ResourceNotFoundException(id); // shu id maulomot yo'q
         }
     }
 
