@@ -36,7 +36,7 @@ public class SpeakerController {
     @GetMapping("/{id}")
     public HttpEntity<?> getSpeaker(@PathVariable Integer id){
         ApiResponse apiResponse = speakerService.getSpeaker(id);
-        return ResponseEntity.status(apiResponse.isSuccess() ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(apiResponse.getObject());
+        return ResponseEntity.status(apiResponse.isSuccess() ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(apiResponse.getData());
     }
 
     @PostMapping

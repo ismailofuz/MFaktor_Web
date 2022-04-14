@@ -74,7 +74,7 @@ public class TemplateService {
 
             Template save = templateRepository.save(template);
 
-            return new ApiResponse<>("added", true, save);
+            return new ApiResponse("added", true, save);
         }
     }
 }
