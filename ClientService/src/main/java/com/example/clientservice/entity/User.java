@@ -26,15 +26,34 @@ public class User {
 
     private String phoneNumber;
 
-    private Double balance;
+    private Double balance=0.0;
 
     private String organization;
 
     private Character gender;
 
-    private boolean isActive;
+    private boolean isActive=true;
 
-    // Advertise  bilan boglanadi
+    public User(String password, String firstName, String lastName, String phoneNumber, String organization, Character gender) {
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.organization = organization;
+        this.gender = gender;
+    }
+
+    public User(String password, String firstName, String lastName, String phoneNumber, Double balance, String organization, Character gender, boolean isActive) {
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.balance = balance;
+        this.organization = organization;
+        this.gender = gender;
+        this.isActive = isActive;
+    }
+// Advertise  bilan boglanadi
 
     // EVENT bilan boglash
 }
