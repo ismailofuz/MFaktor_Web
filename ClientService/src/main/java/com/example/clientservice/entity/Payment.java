@@ -26,7 +26,9 @@ public class Payment {
 //    private PaymentType paymentType;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
+    private Date date=new Date();
+    @ManyToOne
+    private PaymentType paymentType;
 
 
 

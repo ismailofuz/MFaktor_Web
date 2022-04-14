@@ -28,4 +28,12 @@ public class Visitor {
     private String organization;
 
     private Character gender;
+
+    public Visitor(String firstName, String lastName, String phoneNumber, String organization, Character gender) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.organization = organization;
+        this.gender = gender;
+    }
 }
