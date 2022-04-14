@@ -2,6 +2,7 @@ package com.example.clientservice.controller;
 
 import com.example.clientservice.entity.User;
 import com.example.clientservice.payload.ApiResponse;
+import com.example.clientservice.payload.UserDto;
 import com.example.clientservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     final UserService userService;
     @PostMapping("/register")
-    public HttpEntity<?> registerUser(@RequestBody User user){
+    public HttpEntity<?> registerUser(@RequestBody UserDto user){
         ApiResponse apiResponse = userService.addUser(user);
         return ResponseEntity.status(apiResponse.isSuccess()?201:409).body(apiResponse);
     }

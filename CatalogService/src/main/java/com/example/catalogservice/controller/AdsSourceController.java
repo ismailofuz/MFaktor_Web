@@ -39,11 +39,11 @@ public class AdsSourceController {
         return ResponseEntity.ok(delete);
     }*/
 
-    /* @GetMapping
+     @GetMapping
      public HttpEntity<?> getAll(){
          ApiResponse all = adsSourceService.getAll();
          return ResponseEntity.ok(all);
-     }*/
+     }
     @GetMapping("/{id}")
     public HttpEntity<?> getOne(@PathVariable Integer id) {
         ApiResponse response = adsSourceService.getOne(id);

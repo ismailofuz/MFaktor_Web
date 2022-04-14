@@ -88,6 +88,7 @@ public class AdsSourceService {
 
         return new ApiResponse("Delete",true);
     }
+*/
 
     public ApiResponse getAll(){
         List<AdsSource> adsSourceList = adsSourceRepository.findAll();
@@ -95,6 +96,6 @@ public class AdsSourceService {
             return new ApiResponse("List bo'sh",false);
         }
         return new ApiResponse("Mana",true,adsSourceList);
-    }*/
+    }
 }
 

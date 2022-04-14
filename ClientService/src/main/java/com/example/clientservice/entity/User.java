@@ -2,17 +2,14 @@ package com.example.clientservice.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-@Entity
+@Entity(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +30,9 @@ public class User {
     private Character gender;
 
     private boolean isActive=true;
+
+    @ManyToOne
+    private AdsSource adsSource;
 
     public User(String password, String firstName, String lastName, String phoneNumber, String organization, Character gender) {
         this.password = password;
