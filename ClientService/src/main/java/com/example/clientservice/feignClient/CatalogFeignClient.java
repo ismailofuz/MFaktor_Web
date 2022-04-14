@@ -11,6 +11,6 @@ public interface CatalogFeignClient {
 //    @GetMapping("/adsSource")
 //    ApiResponse getAll();
 
-    @GetMapping("/adsSourse/{id}")
+    @GetMapping("/adsSource/{id}")
     ApiResponse getOne(@PathVariable  Integer id);
 }
