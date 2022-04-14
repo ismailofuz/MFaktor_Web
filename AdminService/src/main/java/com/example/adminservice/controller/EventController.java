@@ -6,10 +6,7 @@ import com.example.adminservice.service.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/event")
@@ -21,7 +18,21 @@ public class EventController {
     @PostMapping
     public HttpEntity<?> add(@RequestBody EventDto eventDto){
         ApiResponse apiResponse = eventService.add(eventDto);
-        return ResponseEntity.status(apiResponse.isSuccess() ? 202 : 204).body(apiResponse);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 201 : 409).body(apiResponse);
     }
+
+    @GetMapping("/{id}")
+    public  HttpEntity<?> findByID(@PathVariable Integer id){
+        ApiResponse apiResponse = eventService.findById(id);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 201 : 409).body(apiResponse);
+    }
+
+    @GetMapping
+    public  HttpEntity<?> findAll(){
+        ApiResponse apiResponse = eventService.findAll();
+        return ResponseEntity.status(apiResponse.isSuccess() ? 201 : 409).body(apiResponse);
+
+    }
+
 
 }
