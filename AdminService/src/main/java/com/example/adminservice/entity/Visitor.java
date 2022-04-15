@@ -1,4 +1,4 @@
-package com.example.clientservice.entity;
+package com.example.adminservice.entity;
 
 import lombok.*;
 

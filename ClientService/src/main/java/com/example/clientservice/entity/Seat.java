@@ -1,12 +1,12 @@
-package com.example.adminservice.entity;
+package com.example.clientservice.entity;
 //package com.example.clientservice.entity;
 
+import com.example.adminservice.entity.Template;
 import com.example.adminservice.entity.enums.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
 
 @AllArgsConstructor

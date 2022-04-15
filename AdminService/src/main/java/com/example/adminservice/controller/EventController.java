@@ -31,7 +31,6 @@ public class EventController {
     public  HttpEntity<?> findAll(){
         ApiResponse apiResponse = eventService.findAll();
         return ResponseEntity.status(apiResponse.isSuccess() ? 201 : 409).body(apiResponse);
-
     }
 
 

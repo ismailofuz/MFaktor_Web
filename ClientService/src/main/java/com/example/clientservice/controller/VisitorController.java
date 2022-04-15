@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.util.Optional;
 
@@ -32,11 +33,16 @@ public class VisitorController {
    @GetMapping("/{id}")
    public HttpEntity<?> getById(@PathVariable Long id){
        Optional<Visitor> optionalVisitor = visitorRepository.findById(id);
-       return ResponseEntity.status(optionalVisitor.isPresent()?200:404).body(optionalVisitor.orElseThrow());
+       return ResponseEntity.status(optionalVisitor.isPresent()?200:404).body(optionalVisitor.orElseThrow(() -> new ResourceAccessException("This visitor not found")));
    }
     @PostMapping
     public HttpEntity<?> addVisitor(@RequestBody Visitor visitor){
         ApiResponse apiResponse=visitorService.addVisitor(visitor);
+        return ResponseEntity.status(apiResponse.isSuccess()?201:409).body(apiResponse);
+    }
+    @PostMapping("/event/add")
+    public HttpEntity<?> addVisitorEvent(@RequestBody Visitor visitor){
+        ApiResponse apiResponse=visitorService.addVisitorEvent(visitor);
         return ResponseEntity.status(apiResponse.isSuccess()?201:409).body(apiResponse);
     }
 
@@ -53,7 +59,11 @@ public class VisitorController {
         return ResponseEntity.noContent().build();
     }
 
-
+@GetMapping("/visitor/check")
+    public ApiResponse checkVisitor(@RequestParam String phoneNumber){
+    boolean b = visitorRepository.existsByPhoneNumber(phoneNumber);
+        return new ApiResponse("Mana",b);
+}
 
 
 

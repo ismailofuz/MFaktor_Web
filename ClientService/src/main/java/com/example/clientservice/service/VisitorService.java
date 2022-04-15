@@ -27,6 +27,10 @@ public class VisitorService {
         Visitor save = visitorRepository.save(addVisitor);
         return new ApiResponse("Added successfully",true);
     }
+    public ApiResponse addVisitorEvent( Visitor eventSeatResp){
+        visitorRepository.save(eventSeatResp);
+        return new ApiResponse("Added successfully",true);
+    }
 
     public ApiResponse editVisitor(Long id,Visitor visitor){
         if (visitorRepository.existsByPhoneNumberAndIdNot(visitor.getPhoneNumber(),id)) {

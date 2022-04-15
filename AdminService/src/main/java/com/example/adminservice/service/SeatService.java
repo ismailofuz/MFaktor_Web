@@ -3,7 +3,9 @@ package com.example.adminservice.service;
 import com.example.adminservice.entity.Event;
 import com.example.adminservice.entity.Seat;
 import com.example.adminservice.entity.Template;
+import com.example.adminservice.entity.Visitor;
 import com.example.adminservice.payload.ApiResponse;
+import com.example.adminservice.payload.EventSeatResp;
 import com.example.adminservice.payload.SeatDto;
 import com.example.adminservice.repository.EventRepository;
 import com.example.adminservice.repository.SeatRepository;
@@ -25,32 +27,8 @@ public class SeatService {
 
 
     public ApiResponse getAll() {
-        List<Seat> all = seatRepository.findAll();
 
-        if (all.isEmpty()){
-            return new ApiResponse("Seatlar listi bo'sh", false);
-        }
-
-        List<SeatDto> seatDtoList = new ArrayList<>();
-        for (int i = 0; i < all.size(); i++) {
-
-            Seat seat = all.get(i);
-
-            SeatDto seatDto = new SeatDto();
-
-            seatDto.setName(seat.getName());
-            seatDto.setBookedDate(seat.getBookedDate());
-            seatDto.setEventId(seat.getEvent().getId());
-            seatDto.setPrice(seat.getPrice());
-            seatDto.setExpireDate(seat.getExpireDate());
-            seatDto.setRaw(seat.getRaw());
-            seatDto.setStatus(seat.getStatus());
-            seatDto.setTemplateId(seat.getTemplate().getId());
-
-            seatDtoList.add(seatDto);
-        }
-
-        return new ApiResponse("Seates list", true, seatDtoList);
+        return new ApiResponse("Seates list", true,seatRepository.findAll());
     }
 
     public ApiResponse getOne(Integer id) {
@@ -104,7 +82,7 @@ public class SeatService {
 
         seatRepository.save(seat);
 
-        return new ApiResponse("Succesfully added", true);
+        return new ApiResponse("Successfully added", true);
     }
 
     public ApiResponse update(Integer id , SeatDto seatDto) {
@@ -125,7 +103,7 @@ public class SeatService {
 
         Optional<Seat> seatOptional = seatRepository.findById(id);
         if (!seatOptional.isPresent()) {
-            return new ApiResponse("Bunday id dagi seat mavjud emas", false);
+            return new ApiResponse("Bunday id dagi stul mavjud emas", false);
         }
 
         Seat seat = seatOptional.get();
@@ -140,16 +118,33 @@ public class SeatService {
 
         seatRepository.save(seat);
 
-        return new ApiResponse("Succesfully updated", true);
+        return new ApiResponse("Successfully updated", true);
     }
 
     public ApiResponse deleted(Integer id) {
         Optional<Seat> seatOptional = seatRepository.findById(id);
         if (!seatOptional.isPresent()) {
-            return new ApiResponse("Bunday id dagi seat mavjud emas", false);
+            return new ApiResponse("Bunday id dagi stul mavjud emas", false);
         }
         seatRepository.deleteById(id);
 
-        return new ApiResponse("Succes fully deleted", true);
+        return new ApiResponse("Successfully deleted", true);
+    }
+
+    public ApiResponse getSeatsByEvent(Integer id) {
+        return new ApiResponse("All seats by event",true,seatRepository.findAllByEvent_Id(id));
+    }
+
+    public ApiResponse registerVisitor(Integer eventId, Integer seatId, EventSeatResp eventSeatResp) {
+
+        Event event = eventRepository.getById(eventId);
+
+        Seat seat = seatRepository.getById(seatId);
+
+        String phoneNumber = eventSeatResp.getPhoneNumber();
+
+
+
+        return null;
     }
 }
