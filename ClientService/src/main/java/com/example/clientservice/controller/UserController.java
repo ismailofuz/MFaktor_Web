@@ -28,7 +28,8 @@ public class UserController {
 
     @PutMapping("register/reception/{id}")
     public HttpEntity<?> EditAppliedUser(@PathVariable Integer id,@RequestBody UserDto userDto){
-        userService.editAppliedUser(id)
+        ApiResponse apiResponse = userService.editAppliedUser(id, userDto);
+        return ResponseEntity.status(apiResponse.isSuccess()?201:409).body(apiResponse);
     }
 
 

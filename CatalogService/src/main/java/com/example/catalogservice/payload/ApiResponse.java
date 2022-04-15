@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ApiResponse {
+public class ApiResponse{
 
     private String message;
 

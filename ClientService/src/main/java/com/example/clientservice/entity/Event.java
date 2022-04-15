@@ -1,5 +1,7 @@
 package com.example.clientservice.entity;
 
+import com.example.adminservice.entity.Attachment;
+import com.example.adminservice.entity.Speaker;
 import lombok.*;
 
 import javax.persistence.*;
