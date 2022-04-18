@@ -12,5 +12,5 @@ public class ArticleCategoryDto {
 
     private String name;
 
-    private boolean active;
+    private boolean active=true;
 }

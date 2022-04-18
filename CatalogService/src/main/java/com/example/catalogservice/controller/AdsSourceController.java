@@ -31,13 +31,13 @@ public class AdsSourceController {
     public HttpEntity<?> edit(@PathVariable Integer id,@RequestBody AdsSourceDto dto){
         ApiResponse edit =adsSourceService.edit(id,dto);
         return ResponseEntity.ok(edit);
-    }
+    }*/
 
     @DeleteMapping("/{id}")
     public HttpEntity<?> delete(@PathVariable Integer id){
         ApiResponse delete = adsSourceService.delete(id);
         return ResponseEntity.ok(delete);
-    }*/
+    }
 
      @GetMapping
      public HttpEntity<?> getAll(){

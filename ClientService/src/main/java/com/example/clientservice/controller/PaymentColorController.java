@@ -48,15 +48,4 @@ public class PaymentColorController {
         return ResponseEntity.noContent().build();
     }
 
-
-
-
-
-
-
-
-
-
-
-
 }

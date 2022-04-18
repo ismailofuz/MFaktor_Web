@@ -12,22 +12,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/articleCategory")
 public class ArticleCategoryController {
 
     @Autowired
     ArticleCategoryService articleCategoryService;
 
-   // @GetMapping
-  /*  public HttpEntity<?> getAll(){
+   @GetMapping
+   public HttpEntity<?> getAll(){
         ApiResponse response = articleCategoryService.getAll();
-        return ResponseEntity.status(response.isSuccess()?)
-    }*/
-   /* @GetMapping("/{id}")
-    public HttpEntity<?> getById(@PathVariable Integer id){
-        ApiResponse response = articleCategoryService.getById();
         return ResponseEntity.ok(response);
-    }*/
+    }
+    @GetMapping("/{id}")
+    public HttpEntity<?> getById(@PathVariable Integer id){
+        ApiResponse response = articleCategoryService.getById(id);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping
     public HttpEntity<?> add(@RequestBody ArticleCategoryDto dto){
@@ -35,21 +35,21 @@ public class ArticleCategoryController {
         return ResponseEntity.ok(response);
     }
 
-   /* @PutMapping("/{id}")
+   @PutMapping("/{id}")
     public HttpEntity<?> edit(@PathVariable Integer id,@RequestBody AdsSourceDto dto){
         ApiResponse edit =articleCategoryService.edit(id,dto);
         return ResponseEntity.ok(edit);
-    }*/
+    }
 
-    /*@DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")
     public HttpEntity<?> delete(@PathVariable Integer id){
         ApiResponse delete = articleCategoryService.delete(id);
         return ResponseEntity.ok(delete);
-    }*/
+    }
 
-   /* @GetMapping
-    public HttpEntity<?> getAll(){
-        ApiResponse all = adsSourceService.getAll();
-        return ResponseEntity.ok(all);
-    }*/
+//    @GetMapping
+//    public HttpEntity<?> getAll(){
+//        ApiResponse all = adsSourceService.getAll();
+//        return ResponseEntity.ok(all);
+//    }
 }
