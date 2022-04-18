@@ -1,8 +1,7 @@
 package com.example.clientservice.entity;
 //package com.example.clientservice.entity;
 
-import com.example.adminservice.entity.Template;
-import com.example.adminservice.entity.enums.Status;
+import com.example.clientservice.entity.enums.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
