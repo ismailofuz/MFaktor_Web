@@ -34,6 +34,21 @@ public class VaucherService {
     public ApiResponse addVaucher(VaucherDto vaucherDto) {
         Vaucher vaucher = vaucherMapper.toEntity(vaucherDto);
         Vaucher save = vaucherRepository.save(vaucher);
-        return new ApiResponse("added",true,save);
+        return new ApiResponse("added", true, save);
+    }
+
+    public ApiResponse edit(Integer id, VaucherDto vaucherDto) {
+//        Vaucher vaucher = null;
+        Optional<Vaucher> byId = vaucherRepository.findById(id);
+        if (byId.isPresent()) {
+            Vaucher test = byId.get();
+            Vaucher vaucher = vaucherMapper.toEntity(vaucherDto);
+            vaucher.setId(test.getId());
+            vaucherRepository.save(vaucher);
+            return new ApiResponse("Edited!", true);
+
+        } else {
+            return new ApiResponse("Not found!", false);
+        }
     }
 }

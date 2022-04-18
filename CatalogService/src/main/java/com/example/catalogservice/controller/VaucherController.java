@@ -17,20 +17,40 @@ public class VaucherController {
     VaucherRepository vaucherRepository;
     @Autowired
     VaucherService vaucherService;
+
     @GetMapping
-    public HttpEntity<?> getAll(){
+    public HttpEntity<?> getAll() {
         ApiResponse all = vaucherService.getAll();
         return ResponseEntity.ok(all);
     }
+
     @GetMapping("/{id}")
-    public HttpEntity<?> getById(Integer id){
+    public HttpEntity<?> getById(@PathVariable Integer id) {
         ApiResponse byId = vaucherService.getById(id);
         return ResponseEntity.ok(byId);
     }
+
     @PostMapping
-    public  HttpEntity<?> addVaucher(@RequestBody VaucherDto vaucherDto){
+    public HttpEntity<?> addVaucher(@RequestBody VaucherDto vaucherDto) {
         ApiResponse apiResponse = vaucherService.addVaucher(vaucherDto);
-        return ResponseEntity.status(apiResponse.isSuccess() ? HttpStatus.CREATED :HttpStatus.CONFLICT).body(apiResponse);
+        return ResponseEntity.status(apiResponse.isSuccess() ? HttpStatus.CREATED : HttpStatus.CONFLICT).body(apiResponse);
+    }
+
+    @PutMapping("/{id}")
+    public HttpEntity<?> editVaucher(@PathVariable Integer id, @RequestBody VaucherDto vaucherDto) {
+        ApiResponse apiResponse = vaucherService.edit(id, vaucherDto);
+        return ResponseEntity.status(apiResponse.isSuccess() ? HttpStatus.CREATED : HttpStatus.CONFLICT).body(apiResponse);
+    }
+
+    @DeleteMapping("/{id}")
+    public HttpEntity<?> delete(@PathVariable Integer id) {
+        boolean b = vaucherRepository.existsById(id);
+        if (b) {
+            vaucherRepository.deleteById(id);
+            return ResponseEntity.ok("Deleted!");
+        } else {
+            return ResponseEntity.ok("Not found!");
+        }
     }
 
 }
