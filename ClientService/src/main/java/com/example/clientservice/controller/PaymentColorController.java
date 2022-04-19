@@ -17,7 +17,7 @@ import java.util.Optional;
 @RequestMapping("/paymentcolor")
 public class PaymentColorController {
 
-
+//catalog Serviceda qilish kk
     final PaymentColorService paymentColorService;
     final PaymentColorRepository paymentColorRepository;
     @GetMapping

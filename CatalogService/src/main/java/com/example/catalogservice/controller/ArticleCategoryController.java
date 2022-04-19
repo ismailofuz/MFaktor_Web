@@ -18,31 +18,32 @@ public class ArticleCategoryController {
     @Autowired
     ArticleCategoryService articleCategoryService;
 
-   @GetMapping
-   public HttpEntity<?> getAll(){
+    @GetMapping
+    public HttpEntity<?> getAll() {
         ApiResponse response = articleCategoryService.getAll();
         return ResponseEntity.ok(response);
     }
+
     @GetMapping("/{id}")
-    public HttpEntity<?> getById(@PathVariable Integer id){
+    public HttpEntity<?> getById(@PathVariable Integer id) {
         ApiResponse response = articleCategoryService.getById(id);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping
-    public HttpEntity<?> add(@RequestBody ArticleCategoryDto dto){
-        ApiResponse response = articleCategoryService.add(dto);
+    public HttpEntity<?> add(@RequestBody ArticleCategory articleCategory) {
+        ApiResponse response = articleCategoryService.add(articleCategory);
         return ResponseEntity.ok(response);
     }
 
-   @PutMapping("/{id}")
-    public HttpEntity<?> edit(@PathVariable Integer id,@RequestBody AdsSourceDto dto){
-        ApiResponse edit =articleCategoryService.edit(id,dto);
+    @PutMapping("/{id}")
+    public HttpEntity<?> edit(@PathVariable Integer id, @RequestBody ArticleCategoryDto dto) {
+        ApiResponse edit = articleCategoryService.edit(id, dto);
         return ResponseEntity.ok(edit);
     }
 
     @DeleteMapping("/{id}")
-    public HttpEntity<?> delete(@PathVariable Integer id){
+    public HttpEntity<?> delete(@PathVariable Integer id) {
         ApiResponse delete = articleCategoryService.delete(id);
         return ResponseEntity.ok(delete);
     }

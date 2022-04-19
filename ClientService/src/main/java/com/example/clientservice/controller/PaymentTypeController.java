@@ -20,6 +20,7 @@ import java.util.Optional;
 @RequestMapping("/paymenttype")
 public class PaymentTypeController {
 
+    //catalog serviceda qilish kerak
 
     final PaymentTypeService paymentTypeService;
     final PaymentTyPeRepository paymentTyPeRepository;
