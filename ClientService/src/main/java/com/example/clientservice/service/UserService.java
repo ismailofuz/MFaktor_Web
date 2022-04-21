@@ -74,7 +74,7 @@ public class UserService {
         return new ApiResponse("Payment successfully fullfilled",true);
     }
 
-    public ApiResponse editAppliedUser(Integer id,UserDto userDto) {
+    public ApiResponse editAppliedUser(Long id,UserDto userDto) {
         Optional<User> byId = userRepository.findById(id);
         if(byId.isEmpty()){
             return new ApiResponse("No user found",false);

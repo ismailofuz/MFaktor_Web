@@ -1,7 +1,6 @@
-package com.example.clientservice.repository;
+package com.example.botservice.repository;
 
-import com.example.clientservice.entity.Payment;
-import com.example.clientservice.entity.User;
+import com.example.botservice.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -12,5 +11,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findAllByChatIdNotNull();
 
-    Optional<User> findByChatId(Long id);
+    Optional<User> findByChatId(String id);
 }
