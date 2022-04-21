@@ -1,8 +1,10 @@
 package com.example.clientservice.entity;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,6 +19,19 @@ public class User {
 
     private String password;
 
+    @CreationTimestamp
+    @Column(updatable = false, nullable = false)
+    private Timestamp createdAt;
+
+    private String chatId;
+
+    private String position;
+
+    private String companyName;
+
+    private String lang;
+
+    private String state;
     private String firstName;
 
     private String lastName;

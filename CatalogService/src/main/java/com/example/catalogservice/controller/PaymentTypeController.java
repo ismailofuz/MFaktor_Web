@@ -25,7 +25,7 @@ public class PaymentTypeController {
         return ResponseEntity.status(response.isSuccess() ? 200 : 409).body(response);
     }
     @PostMapping
-    public HttpEntity<?> getOne(@RequestBody PaymentTypeDto dto) {
+    public HttpEntity<?> save(@RequestBody PaymentTypeDto dto) {
         ApiResponse response = paymentTypeService.create(dto);
         return ResponseEntity.status(response.isSuccess() ? 200 : 409).body(response);
     }

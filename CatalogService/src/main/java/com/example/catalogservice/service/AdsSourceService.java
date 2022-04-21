@@ -22,6 +22,10 @@ public class AdsSourceService {
 
     public ApiResponse add(AdsSourceDto dto) {
         AdsSource adsSource = adsSourceMapper.fromDto(dto);
+        Optional<AdsSource> byName = adsSourceRepository.findByName(dto.getName());
+        if (!byName.isEmpty()) {
+            return new ApiResponse("This Add source already exists",false);
+        }
         adsSourceRepository.save(adsSource);
         return new ApiResponse("Added", true);
     }
@@ -33,7 +37,7 @@ public class AdsSourceService {
         }
         AdsSource adsSource = optionalAdsSource.get();
         AdsSourceDto adsSourceDto = adsSourceMapper.toDto(adsSource);
-        return new ApiResponse("Mana", false, adsSourceDto);
+        return new ApiResponse("Mana", true, adsSourceDto);
     }
 
     public ApiResponse edit(Integer id, AdsSourceDto dto) {
@@ -96,6 +100,15 @@ public class AdsSourceService {
             return new ApiResponse("List bo'sh",false);
         }
         return new ApiResponse("Mana",true,adsSourceList);
+    }
+
+    public ApiResponse delete(Integer id) {
+        Optional<AdsSource> byId = adsSourceRepository.findById(id);
+        if (byId.isPresent()) {
+            AdsSource adsSource = byId.get();
+           adsSourceRepository.delete(adsSource);
+           return new ApiResponse("Deleted",true);
+        }return new ApiResponse("Add source not found", false);
     }
 }
 

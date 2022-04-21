@@ -32,5 +32,16 @@ public class UserController {
         return ResponseEntity.status(apiResponse.isSuccess()?201:409).body(apiResponse);
     }
 
+    @GetMapping("/getAll")
+    public HttpEntity<?> getAll(){
+       ApiResponse response=userService.getAll();
+        return ResponseEntity.status(response.isSuccess()?201:409).body(response);
+    }
+
+    @GetMapping("/getAllByChatId")
+    public HttpEntity<?> getAllByChatId(){
+        ApiResponse response=userService.getAllByChatId();
+        return ResponseEntity.status(response.isSuccess()?201:409).body(response);
+    }
 
 }

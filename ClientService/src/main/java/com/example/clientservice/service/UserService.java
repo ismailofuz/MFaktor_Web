@@ -15,6 +15,7 @@ import com.example.clientservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -93,5 +94,15 @@ public class UserService {
         User save = userRepository.save(user);
         return new ApiResponse("User successfully edited",true);
 
+    }
+
+    public ApiResponse getAll() {
+        List<User> all = userRepository.findAll();
+        return new ApiResponse("All users",true,all);
+    }
+
+    public ApiResponse getAllByChatId() {
+        List<User> userList = userRepository.findAllByChatIdNotNull();
+        return new ApiResponse("All users By ChatId",true,userList);
     }
 }

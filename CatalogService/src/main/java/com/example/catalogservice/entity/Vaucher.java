@@ -12,6 +12,7 @@ import java.util.Date;
 @Setter
 @ToString
 @Entity
+@Builder
 public class Vaucher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +20,7 @@ public class Vaucher {
 
     private double amount;
 
-//    private Client client; buyerda client bolishi kerak
+    //    private Client client; buyerda client bolishi kerak
     @Temporal(TemporalType.DATE)
     private Date expireDate;
 

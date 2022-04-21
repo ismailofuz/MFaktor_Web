@@ -18,4 +18,9 @@ public interface ClientFeignClient {
     @PostMapping("/visitor/event/add")
     public ApiResponse save(@RequestBody Visitor visitor);
 
+    @GetMapping("/getAll")
+    ApiResponse getAll();
+
+    @GetMapping("/getAllByChatId")
+    ApiResponse getAllByChatId();
 }

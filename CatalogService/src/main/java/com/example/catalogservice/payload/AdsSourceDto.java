@@ -12,5 +12,5 @@ public class AdsSourceDto {
 
     private  String name;
 
-    private boolean isActive;
+    private boolean isActive=true;
 }

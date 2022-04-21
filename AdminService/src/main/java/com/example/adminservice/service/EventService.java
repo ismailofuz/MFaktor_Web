@@ -3,6 +3,8 @@ package com.example.adminservice.service;
 import com.example.adminservice.entity.Attachment;
 import com.example.adminservice.entity.Event;
 import com.example.adminservice.entity.Speaker;
+import com.example.adminservice.entity.User;
+import com.example.adminservice.feignClient.ClientFeignClient;
 import com.example.adminservice.payload.ApiResponse;
 import com.example.adminservice.payload.EventDto;
 import com.example.adminservice.payload.EventResponse;
@@ -26,6 +28,8 @@ public class EventService {
     final AttachmentRepository attachmentRepository;
     final SpeakerRepository speakerRepository;
     final SeatRepository seatRepository;
+
+    final ClientFeignClient clientFeignClient;
 
     public ApiResponse add(EventDto eventDto) {
 
@@ -52,7 +56,11 @@ public class EventService {
         event.setName(name);
         event.setStartTime(startTime);
         event.setByPlace(byPlace);
-
+// hamma foydalanuvchiga yuborish kerak
+        List<User> userList = (List<User>) clientFeignClient.getAllByChatId().getData();
+        for (User user : userList) {
+            // bot service ga message boradi
+        }
         eventRepository.save(event);
 
         return new ApiResponse("Succesfully added", true);

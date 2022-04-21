@@ -13,6 +13,7 @@ import javax.persistence.Id;
 @Setter
 @ToString
 @Entity
+@Builder
 public class ArticleCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

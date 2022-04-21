@@ -30,6 +30,4 @@ public class Payment {
     @ManyToOne
     private PaymentType paymentType;
 
-
-
 }
