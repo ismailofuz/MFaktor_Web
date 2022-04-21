@@ -1,4 +1,4 @@
-package com.example.clientservice.entity;
+package com.example.botservice.entity;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
