@@ -29,6 +29,4 @@ public class PaymentTypeController {
         ApiResponse response = paymentTypeService.create(dto);
         return ResponseEntity.status(response.isSuccess() ? 200 : 409).body(response);
     }
-
-
 }
