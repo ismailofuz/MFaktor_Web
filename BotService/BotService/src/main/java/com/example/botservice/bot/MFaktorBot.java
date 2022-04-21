@@ -44,8 +44,8 @@ public class MFaktorBot extends TelegramLongPollingBot {
         if (update.hasMessage()) {
             //feign client
 
-            Optional<User> optionalUser = clientFeignClient.getbyChatId(String.valueOf(update.getMessage().getChatId()));
-//            Optional<User> optionalUser = userRepository.findByChatId(String.valueOf(update.getMessage().getChatId()));
+//            Optional<User> optionalUser = clientFeignClient.getbyChatId(String.valueOf(update.getMessage().getChatId()));
+            Optional<User> optionalUser = userRepository.findByChatId(String.valueOf(update.getMessage().getChatId()));
 
             Message message = update.getMessage();
             if (message.hasText()) {

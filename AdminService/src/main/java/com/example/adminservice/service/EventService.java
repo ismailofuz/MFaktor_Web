@@ -4,6 +4,7 @@ import com.example.adminservice.entity.Attachment;
 import com.example.adminservice.entity.Event;
 import com.example.adminservice.entity.Speaker;
 import com.example.adminservice.entity.User;
+import com.example.adminservice.feignClient.BotFeignClient;
 import com.example.adminservice.feignClient.ClientFeignClient;
 import com.example.adminservice.payload.ApiResponse;
 import com.example.adminservice.payload.EventDto;
@@ -24,6 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class EventService {
 
+    final BotFeignClient botFeignClient;
     final EventRepository eventRepository;
     final AttachmentRepository attachmentRepository;
     final SpeakerRepository speakerRepository;
@@ -56,12 +58,14 @@ public class EventService {
         event.setName(name);
         event.setStartTime(startTime);
         event.setByPlace(byPlace);
-// hamma foydalanuvchiga yuborish kerak
-        List<User> userList = (List<User>) clientFeignClient.getAllByChatId().getData();
-        for (User user : userList) {
-            // bot service ga message boradi
-        }
+
+
         eventRepository.save(event);
+
+// hamma foydalanuvchiga yuborish kerak
+        //tadbirmni botga beryapmz
+        botFeignClient.setAllMessage(event);
+
 
         return new ApiResponse("Succesfully added", true);
     }

@@ -1,6 +1,7 @@
 package com.example.botservice.bot;
 
 
+import com.example.botservice.entity.Event;
 import com.example.botservice.entity.User;
 import com.example.botservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,17 +58,17 @@ public class TelegramServiceImpl implements TelegramService {
         Optional<User> optionalUser = userRepository.findByChatId(String.valueOf(update.getMessage().getChatId()));
         User user = optionalUser.get();
 
-        ReplyKeyboardMarkup replyKeyboardMarkup=new ReplyKeyboardMarkup();
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setOneTimeKeyboard(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setSelective(true);
 
-        List<KeyboardRow> keyboardRowList=new ArrayList<>();
-        KeyboardRow row1=new KeyboardRow();
-        KeyboardRow row2=new KeyboardRow();
+        List<KeyboardRow> keyboardRowList = new ArrayList<>();
+        KeyboardRow row1 = new KeyboardRow();
+        KeyboardRow row2 = new KeyboardRow();
 
-        KeyboardButton button1=new KeyboardButton(Constant.REGISTER);
-        KeyboardButton button2=new KeyboardButton(Constant.EDIT_INFORM);
+        KeyboardButton button1 = new KeyboardButton(Constant.REGISTER);
+        KeyboardButton button2 = new KeyboardButton(Constant.EDIT_INFORM);
 
 
         row1.add(button1);
@@ -83,10 +84,24 @@ public class TelegramServiceImpl implements TelegramService {
                 .text("Telefon nomer :\n" + user.getPhoneNumber() + "\n\n" +
                         "FIO :\n" + user.getFullName() + "\n\n" +
                         "Korxona nomi :\n" + user.getCompanyName() + "\n\n" +
-                        "Lavozimi :\n"+user.getPosition()
+                        "Lavozimi :\n" + user.getPosition()
                 )
                 .chatId(String.valueOf(update.getMessage().getChatId())).replyMarkup(replyKeyboardMarkup).build();
     }
+
+    @Override
+    public List<SendMessage> sendMessageUsers(Event event, List<String> listChatId) {
+        SendMessage sendMessage = new SendMessage();
+        List<SendMessage> sendMessages = new ArrayList<>();
+        for (String chatId : listChatId) {
+            sendMessage.setChatId(chatId);
+            //tadbir malumotlari ketishi kerak
+            sendMessage.setText(event.getName());
+            sendMessages.add(sendMessage);
+        }
+        return sendMessages;
+    }
+
 
     @Override
     public SendMessage enterCompanyName(Update update) {
@@ -108,7 +123,7 @@ public class TelegramServiceImpl implements TelegramService {
         sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
         Optional<User> byChatId = userRepository.findByChatId(String.valueOf(update.getMessage().getChatId()));
         User user = byChatId.get();
-        sendMessage.setText("Salom " + user.getFullName() );
+        sendMessage.setText("Salom " + user.getFullName());
 
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setResizeKeyboard(true);
