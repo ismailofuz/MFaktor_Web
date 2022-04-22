@@ -49,10 +49,10 @@ public class TemplateService {
             List<RawDto> rawDtoList = dto.getRawDtoList();
             List<Seat> seatList = new ArrayList<>();
             for (int i = 0; i < rawDtoList.size(); i++) {
-                String str = "" + ('A' + i);
                 for (Integer integer = 0; integer < rawDtoList.get(i).getCount(); integer++) {
+                    String str = "" + (char) ('A' + integer);
                     Seat seat = new Seat();
-                    seat.setName(i + str);
+                    seat.setName(i + 1 + str);
                     seat.setRaw(rawDtoList.get(i).getRawNumber());
                     if (dto.isPriceByPlace()) {
                         seat.setPrice(maxPrice - difference * i);
@@ -61,12 +61,12 @@ public class TemplateService {
                     }
                     seatList.add(seat);
                 }
-
             }
             template.setSeats(seatList);
 
             template.setName(dto.getName());
             template.setCount(dto.getCount());
+            //TODO narxlarni to'grilash kerak
             template.setMaxPrice(dto.getMaxPrice());
             template.setMinPrice(dto.getMinPrice());
             template.setPriceByPlace(dto.isPriceByPlace());
