@@ -18,7 +18,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/speaker")
+@RequestMapping("/speakerq")
 public class SpeakerController {
 
     final SpeakerRepository speakerRepository;
@@ -27,11 +27,11 @@ public class SpeakerController {
     @GetMapping
     public HttpEntity<?> getSpeakers(@RequestParam(defaultValue = "0") int size, @RequestParam(defaultValue = "0") int page) {
         if (size == 0 || page == 0) {
-            List<Speaker> speakers = speakerRepository.findAll();
+            List<Speaker> speakers = speakerRepository.findAllByActive(true);
             return ResponseEntity.ok().body(speakers);
         }else{
             Pageable pageable = PageRequest.of(page, size);
-            Page<Speaker> speakers = speakerRepository.findAll(pageable);
+            Page<Speaker> speakers = (Page<Speaker>) speakerRepository.findAllByActive(true, pageable);
             return ResponseEntity.ok().body(speakers);
         }
     }
