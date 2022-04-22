@@ -7,17 +7,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Discovery" />
-        <module name="CatalogService" />
         <module name="BotService" />
         <module name="AdminService" />
         <module name="ClientService" />
         <module name="Gateway" />
+        <module name="Discovery" />
+        <module name="CatalogService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="AdminService" target="17" />
       <module name="BotService" target="17" />
+      <module name="BotService (1)" target="17" />
       <module name="CatalogService" target="17" />
       <module name="ClientService" target="17" />
       <module name="Discovery" target="17" />
@@ -28,6 +29,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="AdminService" options="-parameters" />
       <module name="BotService" options="-parameters" />
+      <module name="BotService (1)" options="-parameters" />
       <module name="CatalogService" options="-parameters" />
       <module name="ClientService" options="-parameters" />
       <module name="Discovery" options="-parameters" />

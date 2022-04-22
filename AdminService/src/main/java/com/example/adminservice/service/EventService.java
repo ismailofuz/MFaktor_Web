@@ -3,6 +3,9 @@ package com.example.adminservice.service;
 import com.example.adminservice.entity.Attachment;
 import com.example.adminservice.entity.Event;
 import com.example.adminservice.entity.Speaker;
+import com.example.adminservice.entity.User;
+import com.example.adminservice.feignClient.BotFeignClient;
+import com.example.adminservice.feignClient.ClientFeignClient;
 import com.example.adminservice.payload.ApiResponse;
 import com.example.adminservice.payload.EventDto;
 import com.example.adminservice.payload.EventResponse;
@@ -22,10 +25,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class EventService {
 
+    final BotFeignClient botFeignClient;
     final EventRepository eventRepository;
     final AttachmentRepository attachmentRepository;
     final SpeakerRepository speakerRepository;
     final SeatRepository seatRepository;
+
+    final ClientFeignClient clientFeignClient;
 
     public ApiResponse add(EventDto eventDto) {
 
@@ -53,7 +59,13 @@ public class EventService {
         event.setStartTime(startTime);
         event.setByPlace(byPlace);
 
+
         eventRepository.save(event);
+
+// hamma foydalanuvchiga yuborish kerak
+        //tadbirmni botga beryapmz
+        botFeignClient.setAllMessage(event);
+
 
         return new ApiResponse("Succesfully added", true);
     }

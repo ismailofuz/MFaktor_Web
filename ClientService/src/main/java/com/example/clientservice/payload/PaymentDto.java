@@ -9,7 +9,7 @@ import java.util.Date;
 @AllArgsConstructor@NoArgsConstructor
 public class PaymentDto {
 
-    private Integer userId;
+    private Long userId;
     private Double amount;
     private Date date;
     private Integer paymentTypeId;
