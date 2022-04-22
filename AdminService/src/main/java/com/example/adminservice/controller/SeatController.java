@@ -23,11 +23,11 @@ public class SeatController {
     }
 
 
-    @GetMapping("/event/{id}")
-    public HttpEntity<?> getSeatsByEvent(@PathVariable Integer id){
-        ApiResponse apiResponse = seatService.getSeatsByEvent(id);
-        return ResponseEntity.ok().body(apiResponse);
-    }
+//    @GetMapping("/event/{id}")
+//    public HttpEntity<?> getSeatsByEvent(@PathVariable Integer id){
+//        ApiResponse apiResponse = seatService.getSeatsByEvent(id);
+//        return ResponseEntity.ok().body(apiResponse);
+//    }
 
     @GetMapping("/{id}")
     public HttpEntity<?> getAll(@PathVariable Integer id){

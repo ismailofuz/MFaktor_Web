@@ -43,7 +43,7 @@ public class SeatService {
 
         seatDto.setName(seat.getName());
         seatDto.setBookedDate(seat.getBookedDate());
-        seatDto.setEventId(seat.getEvent().getId());
+        seatDto.setEventId(seat.getId());
         seatDto.setPrice(seat.getPrice());
         seatDto.setExpireDate(seat.getExpireDate());
         seatDto.setRaw(seat.getRaw());
@@ -77,7 +77,6 @@ public class SeatService {
         seat.setExpireDate(seatDto.getExpireDate());
         seat.setStatus(seatDto.getStatus());
         seat.setRaw(seatDto.getRaw());
-        seat.setEvent(event);
         seat.setTemplate(template);
 
         seatRepository.save(seat);
@@ -113,7 +112,6 @@ public class SeatService {
         seat.setExpireDate(seatDto.getExpireDate());
         seat.setStatus(seatDto.getStatus());
         seat.setRaw(seatDto.getRaw());
-        seat.setEvent(event);
         seat.setTemplate(template);
 
         seatRepository.save(seat);
@@ -131,9 +129,9 @@ public class SeatService {
         return new ApiResponse("Successfully deleted", true);
     }
 
-    public ApiResponse getSeatsByEvent(Integer id) {
-        return new ApiResponse("All seats by event",true,seatRepository.findAllByEvent_Id(id));
-    }
+//    public ApiResponse getSeatsByEvent(Integer id) {
+//        return new ApiResponse("All seats by event",true,seatRepository.findAllByEvent_Id(id));
+//    }
 
     public ApiResponse registerVisitor(Integer eventId, Integer seatId, EventSeatResp eventSeatResp) {
 

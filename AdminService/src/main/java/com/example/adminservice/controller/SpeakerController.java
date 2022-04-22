@@ -18,7 +18,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/speakerq")
+@RequestMapping("/speaker")
 public class SpeakerController {
 
     final SpeakerRepository speakerRepository;

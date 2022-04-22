@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,5 +31,9 @@ public class Event {
     private Timestamp startTime;
 
     private boolean byPlace = true;
+    @ManyToOne
+    private Template template;
+    @ManyToMany
+    private List<Seat> seats;
 }
 
