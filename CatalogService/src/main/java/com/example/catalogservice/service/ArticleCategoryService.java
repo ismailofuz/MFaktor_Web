@@ -6,7 +6,10 @@ import com.example.catalogservice.payload.AdsSourceDto;
 import com.example.catalogservice.payload.ApiResponse;
 import com.example.catalogservice.payload.ArticleCategoryDto;
 import com.example.catalogservice.repository.ArticleCategoryRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.ToString;
+import net.bytebuddy.build.RepeatedAnnotationPlugin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +18,16 @@ import java.util.Optional;
 
 @Service
 public class ArticleCategoryService {
-    final ArticleCategoryRepository articleCategoryRepository;
 
-    public ArticleCategoryService(ArticleCategoryRepository articleCategoryRepository) {
-        this.articleCategoryRepository = articleCategoryRepository;
-    }
+    @Autowired
+    ArticleCategoryRepository articleCategoryRepository;
+
+//    public ArticleCategoryService(ArticleCategoryRepository articleCategoryRepository) {
+//        this.articleCategoryRepository = articleCategoryRepository;
+//    }
+//
+//    public ArticleCategoryService() {
+//    }
 
     @SneakyThrows
     public ApiResponse add(ArticleCategory articleCategory) {

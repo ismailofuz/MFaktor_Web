@@ -57,6 +57,7 @@ public class ArticleCategoryServiceTest {
 
         //then
         System.out.println(articleCategory);
+        //fake ish
         given(articleCategoryRepository.save(articleCategory)).willReturn(articleCategory);
 
         System.out.println(articleCategoryService);
@@ -67,6 +68,7 @@ public class ArticleCategoryServiceTest {
 
         System.out.println(articleCategory);
 
+        assertThat(response.isSuccess()).isFalse();
         assertThat(articleCategory).isNotNull(); //qo'shildi rostanam deyishi un
     }
 
