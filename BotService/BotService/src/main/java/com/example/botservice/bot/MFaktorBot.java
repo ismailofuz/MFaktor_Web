@@ -29,12 +29,12 @@ public class MFaktorBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "5378994767:AAFA5ZXcSnjU1_Mmg4v6XCbzVdysMZbEWVc";
+        return "5300946785:AAHKzA8FIQTBDFKdicwVXl2V6FwfQBzNPxs";
     }
 
     @Override
     public String getBotUsername() {
-        return "MFakt0rBot";
+        return "oportunity_bexa_bot";
     }
 
     @SneakyThrows
