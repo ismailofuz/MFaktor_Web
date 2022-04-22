@@ -57,4 +57,25 @@ public class UserController {
         return ResponseEntity.ok(optionalUser);
     }
 
+    @GetMapping("/{id}")
+    public HttpEntity<?> getById(@PathVariable Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (!optionalUser.isPresent()) {
+            return ResponseEntity.ok(new ApiResponse("Not found!", false));
+        } else {
+            User user = optionalUser.get();
+            return ResponseEntity.ok(new ApiResponse("Mana", true, user));
+        }
+    }
+
+    @GetMapping("/balance")
+    public HttpEntity<?> changeBalance(@RequestParam Double balance, @RequestParam Long userId) {
+        Optional<User> byId = userRepository.findById(userId);
+        User user = byId.get();
+        user.setBalance(balance);
+        User save = userRepository.save(user);
+        return ResponseEntity.ok(new ApiResponse("Balance", true, save));
+    }
+
+
 }
