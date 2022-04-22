@@ -5,6 +5,7 @@ import com.example.adminservice.entity.Template;
 import com.example.adminservice.payload.ApiResponse;
 import com.example.adminservice.payload.RawDto;
 import com.example.adminservice.payload.TemplateDto;
+import com.example.adminservice.repository.SeatRepository;
 import com.example.adminservice.repository.TemplateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TemplateService {
     private final TemplateRepository templateRepository;
+    private final SeatRepository seatRepository;
 
     public ApiResponse one(Integer id) {
 
@@ -44,6 +46,7 @@ public class TemplateService {
             Double minPrice = dto.getMinPrice();
             Double difference = (maxPrice - minPrice) / dto.getRawDtoList().size();
 
+            Template save = templateRepository.save(template);
             //Muhammadqodir
             //TODO qilasan
             List<RawDto> rawDtoList = dto.getRawDtoList();
@@ -52,6 +55,7 @@ public class TemplateService {
                 for (Integer integer = 0; integer < rawDtoList.get(i).getCount(); integer++) {
                     String str = "" + (char) ('A' + integer);
                     Seat seat = new Seat();
+                    seat.setTemplate(save);
                     seat.setName(i + 1 + str);
                     seat.setRaw(rawDtoList.get(i).getRawNumber());
                     if (dto.isPriceByPlace()) {
@@ -72,10 +76,8 @@ public class TemplateService {
             template.setPriceByPlace(dto.isPriceByPlace());
 
             // stulchalar generate :
-
-
-            Template save = templateRepository.save(template);
-
+//            seatRepository.saveAll(seatList);
+            templateRepository.save(save);
             return new ApiResponse("added", true, save);
         }
     }
