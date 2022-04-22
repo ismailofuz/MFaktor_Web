@@ -22,6 +22,9 @@ public class SpeakerService {
         Optional<Speaker> optionalSpeaker = speakerRepository.findById(id);
         if (optionalSpeaker.isPresent()) {
             Speaker speaker = optionalSpeaker.get();
+            if (!speaker.isActive()) {
+                return new ApiResponse("This speaker not active!", false);
+            }
             return new ApiResponse("", true, speaker);
         }
         return new ApiResponse("This speaker not found!", false);
@@ -71,6 +74,7 @@ public class SpeakerService {
             speakerEdit.setBio(dto.getBio());
             speakerEdit.setPhoneNumber(dto.getPhoneNumber());
             speakerEdit.setAttachment(attachment);
+            speakerEdit.setActive(dto.isActive());
             speakerRepository.save(speakerEdit);
         }
         return new ApiResponse("Successfully edited!", true);
@@ -80,8 +84,8 @@ public class SpeakerService {
         Optional<Speaker> optionalSpeaker = speakerRepository.findById(id);
         if (optionalSpeaker.isPresent()) {
             Speaker speaker = optionalSpeaker.get();
-            speakerRepository.deleteById(id);
-            return new ApiResponse("Successfully deleted!", true);
+            speaker.setActive(false);
+            return new ApiResponse("Speaker successfully deactivated!", true);
         }
         return new ApiResponse("This speaker not found!", false);
     }
