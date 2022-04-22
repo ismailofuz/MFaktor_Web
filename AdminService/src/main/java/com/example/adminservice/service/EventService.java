@@ -51,6 +51,9 @@ public class EventService {
         Timestamp startTime = eventDto.getStartTime();
         Boolean byPlace = eventDto.getByPlace();
 
+
+        //TODO biriktirish kerak templatega
+
         Event event = new Event();
         event.setSpeaker(speaker);
         event.setAttachment(attachment);
