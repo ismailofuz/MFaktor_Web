@@ -44,6 +44,8 @@ public class TemplateService {
             Double minPrice = dto.getMinPrice();
             Double difference = (maxPrice - minPrice) / dto.getRawDtoList().size();
 
+            //Muhammadqodir
+            //TODO qilasan
             List<RawDto> rawDtoList = dto.getRawDtoList();
             List<Seat> seatList = new ArrayList<>();
             for (int i = 0; i < rawDtoList.size(); i++) {

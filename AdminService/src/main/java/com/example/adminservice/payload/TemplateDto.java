@@ -27,8 +27,8 @@ public class TemplateDto {
     @NotNull(message = "required field")
     private Double minPrice;
 
-    @NotNull(message = "required field")
-    private Integer countOfChairsInRaw;
+//    @NotNull(message = "required field")
+//        private Integer countOfChairsInRaw;
 
     private List<RawDto> rawDtoList;
 }
