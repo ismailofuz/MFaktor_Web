@@ -32,4 +32,7 @@ public class SpeakerDTO {
 
     @NotNull(message = "Phone number required")
     private String phoneNumber;
+
+    @Column(nullable = false)
+    private boolean active = true;
 }

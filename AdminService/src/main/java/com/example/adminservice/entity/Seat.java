@@ -21,7 +21,6 @@ public class Seat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(unique = true)
     private String name;
 
     private Double price; // narxi
@@ -40,7 +39,6 @@ public class Seat {
     @JsonIgnore
     @ManyToOne
     private Template template;
-
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.EMPTY;

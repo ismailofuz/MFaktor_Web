@@ -25,8 +25,8 @@ public class Template {
 
     private Integer count; // default
 
-//    @JsonIgnore
-    @OneToMany(mappedBy = "template")
+    //    @JsonIgnore
+    @OneToMany(mappedBy = "template", cascade = CascadeType.ALL)
     private List<Seat> seats;
 
     private Integer countOfChairsInRaw;
