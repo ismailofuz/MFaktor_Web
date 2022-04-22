@@ -62,6 +62,7 @@ public class VisitorController {
 @GetMapping("/visitor/check")
     public ApiResponse checkVisitor(@RequestParam String phoneNumber){
     boolean b = visitorRepository.existsByPhoneNumber(phoneNumber);
+
         return new ApiResponse("Mana",b);
 }
 

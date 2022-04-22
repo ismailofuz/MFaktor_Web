@@ -4,6 +4,8 @@ import com.example.adminservice.entity.Event;
 import com.example.adminservice.entity.Seat;
 import com.example.adminservice.entity.Template;
 import com.example.adminservice.entity.Visitor;
+import com.example.adminservice.entity.enums.Status;
+import com.example.adminservice.feignClient.ClientFeignClient;
 import com.example.adminservice.payload.ApiResponse;
 import com.example.adminservice.payload.EventSeatResp;
 import com.example.adminservice.payload.SeatDto;
@@ -14,17 +16,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class SeatService {
-
     final SeatRepository seatRepository;
     final EventRepository eventRepository;
     final TemplateRepository templateRepository;
-
+     final ClientFeignClient clientFeignClient;
 
     public ApiResponse getAll() {
 
@@ -145,7 +147,7 @@ public class SeatService {
 
 
 
-
         return null;
     }
+
 }
