@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/speaker")
@@ -23,40 +25,38 @@ public class SpeakerController {
     final SpeakerService speakerService;
 
     @GetMapping
-    public HttpEntity<?> getSpeakers(@RequestParam(defaultValue = "0") int size,
-                                     @RequestParam(defaultValue = "0") int page) {
-        Pageable pageable = PageRequest.of(page, size);
+    public HttpEntity<?> getSpeakers(@RequestParam(defaultValue = "0") int size, @RequestParam(defaultValue = "0") int page) {
         if (size == 0 || page == 0) {
-            speakerRepository.findAll();
+            List<Speaker> speakers = speakerRepository.findAll();
+            return ResponseEntity.ok().body(speakers);
+        }else{
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Speaker> speakers = speakerRepository.findAll(pageable);
+            return ResponseEntity.ok().body(speakers);
         }
-        Page<Speaker> speakers = speakerRepository.findAll(pageable);
-        return ResponseEntity.ok().body(speakers);
     }
 
     @GetMapping("/{id}")
-    public HttpEntity<?> getSpeaker(@PathVariable Integer id){
+    public HttpEntity<?> getSpeaker(@PathVariable Integer id) {
         ApiResponse apiResponse = speakerService.getSpeaker(id);
         return ResponseEntity.status(apiResponse.isSuccess() ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(apiResponse.getData());
     }
 
     @PostMapping
-    public HttpEntity<?> add(@RequestBody SpeakerDTO dto){
+    public HttpEntity<?> add(@RequestBody SpeakerDTO dto) {
         ApiResponse apiResponse = speakerService.add(dto);
-        return ResponseEntity.status(apiResponse.isSuccess() ?
-                HttpStatus.CREATED : HttpStatus.CONFLICT).body(apiResponse);
+        return ResponseEntity.status(apiResponse.isSuccess() ? HttpStatus.CREATED : HttpStatus.CONFLICT).body(apiResponse);
     }
 
     @PutMapping("/{id}")
-    public HttpEntity<?> edit(@PathVariable Integer id, @RequestBody SpeakerDTO dto){
+    public HttpEntity<?> edit(@PathVariable Integer id, @RequestBody SpeakerDTO dto) {
         ApiResponse apiResponse = speakerService.edit(id, dto);
-        return ResponseEntity.status(apiResponse.isSuccess() ?
-                HttpStatus.OK : HttpStatus.NOT_FOUND).body(apiResponse);
+        return ResponseEntity.status(apiResponse.isSuccess() ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(apiResponse);
     }
 
     @DeleteMapping("/{id}")
-    public HttpEntity<?> delete(@PathVariable Integer id){
+    public HttpEntity<?> delete(@PathVariable Integer id) {
         ApiResponse apiResponse = speakerService.delete(id);
-        return ResponseEntity.status(apiResponse.isSuccess() ?
-                HttpStatus.OK : HttpStatus.NOT_FOUND).body(apiResponse);
+        return ResponseEntity.status(apiResponse.isSuccess() ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(apiResponse);
     }
 }

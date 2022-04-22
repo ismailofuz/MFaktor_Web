@@ -1,7 +1,6 @@
 package com.example.botservice.bot;
 
 public interface Constant {
-
     String CLOSEST_EVENTS = " Eng yaqin tadbirlar";
     String EVENTS = " Tadbirlar";
     String SETTINGS = "⚙️ Sozlamalar";
