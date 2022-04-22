@@ -13,10 +13,10 @@ import javax.ws.rs.POST;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/template")
+@RequestMapping("/template")
 public class TemplateController {
 
-    private TemplateService templateService;
+    private final TemplateService templateService;
 
     /**
      *  get one template
@@ -30,12 +30,11 @@ public class TemplateController {
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public HttpEntity<?> add(@Valid @RequestBody TemplateDto dto){
         ApiResponse apiResponse = templateService.add(dto);
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
-
 
 
 }
