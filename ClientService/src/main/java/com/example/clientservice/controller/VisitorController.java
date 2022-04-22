@@ -25,53 +25,53 @@ public class VisitorController {
 
     final VisitorRepository visitorRepository;
     final VisitorService visitorService;
+
     @GetMapping
-    public HttpEntity<?> getAll(){
+    public HttpEntity<?> getAll() {
         return ResponseEntity.ok(visitorRepository.findAll());
     }
 
-   @GetMapping("/{id}")
-   public HttpEntity<?> getById(@PathVariable Long id){
-       Optional<Visitor> optionalVisitor = visitorRepository.findById(id);
-       return ResponseEntity.status(optionalVisitor.isPresent()?200:404).body(optionalVisitor.orElseThrow(() -> new ResourceAccessException("This visitor not found")));
-   }
-    @PostMapping
-    public HttpEntity<?> addVisitor(@RequestBody Visitor visitor){
-        ApiResponse apiResponse=visitorService.addVisitor(visitor);
-        return ResponseEntity.status(apiResponse.isSuccess()?201:409).body(apiResponse);
+    @GetMapping("/{id}")
+    public HttpEntity<?> getById(@PathVariable Long id) {
+        Optional<Visitor> optionalVisitor = visitorRepository.findById(id);
+        return ResponseEntity.status(optionalVisitor.isPresent() ? 200 : 404).body(optionalVisitor.orElseThrow(() -> new ResourceAccessException("This visitor not found")));
     }
+
+    @PostMapping
+    public HttpEntity<?> addVisitor(@RequestBody Visitor visitor) {
+        ApiResponse apiResponse = visitorService.addVisitor(visitor);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 201 : 409).body(apiResponse);
+    }
+
     @PostMapping("/event/add")
-    public HttpEntity<?> addVisitorEvent(@RequestBody Visitor visitor){
-        ApiResponse apiResponse=visitorService.addVisitorEvent(visitor);
-        return ResponseEntity.status(apiResponse.isSuccess()?201:409).body(apiResponse);
+    public HttpEntity<?> addVisitorEvent(@RequestBody Visitor visitor) {
+        ApiResponse apiResponse = visitorService.addVisitorEvent(visitor);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 201 : 409).body(apiResponse);
     }
 
 
     @PutMapping("/{id}")
-    public HttpEntity<?> editVisitorById(@PathVariable Long id,@RequestBody Visitor visitor){
+    public HttpEntity<?> editVisitorById(@PathVariable Long id, @RequestBody Visitor visitor) {
         ApiResponse apiResponse = visitorService.editVisitor(id, visitor);
-        return ResponseEntity.status(apiResponse.isSuccess()?200: 409).body(apiResponse);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
 
     @DeleteMapping("/{id}")
-    public HttpEntity<?> deleteById(@PathVariable Long id){
+    public HttpEntity<?> deleteById(@PathVariable Long id) {
         visitorRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-@GetMapping("/visitor/check")
-    public ApiResponse checkVisitor(@RequestParam String phoneNumber){
-    boolean b = visitorRepository.existsByPhoneNumber(phoneNumber);
-        return new ApiResponse("Mana",b);
-}
-
-
-
-
-
-
-
-
+    @GetMapping("/visitor/check")
+    public ApiResponse checkVisitor(@RequestParam String phoneNumber) {
+        boolean b = visitorRepository.existsByPhoneNumber(phoneNumber);
+        Optional<Visitor> byPhoneNumber = visitorRepository.findByPhoneNumber(phoneNumber);
+        if (!byPhoneNumber.isPresent()) {
+            return new ApiResponse("Mana", b, byPhoneNumber.get());
+        } else {
+            return new ApiResponse("Not found!", false);
+        }
+    }
 
 
 }

@@ -35,5 +35,8 @@ public class Event {
     private Template template;
     @ManyToMany
     private List<Seat> seats;
+
+    @Transient
+    private Double summa;
 }
 

@@ -30,7 +30,7 @@ public class EventService {
 
     public ApiResponse add(EventDto eventDto) {
 
-        Event event =new Event();
+        Event event = new Event();
         Integer speakerId = eventDto.getSpeakerId();
         Optional<Speaker> speakerOptional = speakerRepository.findById(speakerId);
         Optional<Template> optionalTemplate = templateRepository.findById(eventDto.getTemplateId());
@@ -75,6 +75,7 @@ public class EventService {
 
     public ApiResponse findById(Integer id) {
         return new ApiResponse();
+        //TODO qilish kerak
     }
 
     public ApiResponse findAll() {
