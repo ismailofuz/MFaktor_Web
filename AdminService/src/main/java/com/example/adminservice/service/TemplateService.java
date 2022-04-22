@@ -42,7 +42,8 @@ public class TemplateService {
 
             Double maxPrice = dto.getMaxPrice();
             Double minPrice = dto.getMinPrice();
-            Double difference = (maxPrice - minPrice) / dto.getRawDtoList().size();
+            Double difference = Double.valueOf(Math.round((maxPrice - minPrice) / (dto.getRawDtoList().size()*1000)));
+            difference = difference * 1000;
 
             //Muhammadqodir
             //TODO qilasan
