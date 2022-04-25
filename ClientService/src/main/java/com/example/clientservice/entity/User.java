@@ -38,15 +38,15 @@ public class User {
 
     private String phoneNumber;
 
-    private Double balance=0.0;
+    private Double balance = 0.0;
 
     private String organization;
 
     private Character gender;
 
-    private boolean isActive=true;
+    private boolean isActive = true;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private AdsSource adsSource;
 
     public User(String password, String firstName, String lastName, String phoneNumber, String organization, Character gender) {

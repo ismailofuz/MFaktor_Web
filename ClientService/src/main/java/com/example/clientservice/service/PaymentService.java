@@ -24,7 +24,7 @@ public class PaymentService {
         }
         Payment payment = new Payment();
         payment.setAmount(dto.getAmount());
-        //payment.setUser(userRepository.findById(dto.getUserId()).get());
+        payment.setUser(userRepository.findById(dto.getUserId()).get());
         User user = userRepository.findById(dto.getUserId()).get();
         user.setBalance(user.getBalance() + dto.getAmount());
         userRepository.save(user);

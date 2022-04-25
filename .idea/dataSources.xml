@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="mfactor@localhost" uuid="f59bec90-943b-47a6-9e58-a7cff99bb48e">
+    <data-source source="LOCAL" name="mfaktor@localhost" uuid="94ce535d-f24e-4e55-9b57-bf059ba8ca9f">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/mfactor</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/mfaktor</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

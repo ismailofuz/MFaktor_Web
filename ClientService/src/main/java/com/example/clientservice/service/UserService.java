@@ -34,9 +34,10 @@ public class UserService {
         addUser.setOrganization(user.getOrganization());
         addUser.setPassword(user.getPassword());
         addUser.setPhoneNumber(user.getPhoneNumber());
-        ApiResponse one = catalogFeignClient.getAdsSource(user.getAdsSourseId());
-        AdsSource object = (AdsSource) one.getObject();
-        addUser.setAdsSource(object);
+        ApiResponse<AdsSource> response = catalogFeignClient.getAdsSource(user.getAdsSourceId());
+        AdsSource adsSource = response.getObject();
+
+        addUser.setAdsSource(adsSource);
         User save = userRepository.save(addUser);
         return new ApiResponse("Registered", true);
     }
@@ -52,7 +53,7 @@ public class UserService {
         addUser.setOrganization(user.getOrganization());
         addUser.setPassword(user.getPassword());
         addUser.setPhoneNumber(user.getPhoneNumber());
-        ApiResponse one = catalogFeignClient.getAdsSource(user.getAdsSourseId());
+        ApiResponse one = catalogFeignClient.getAdsSource(user.getAdsSourceId());
         AdsSource object = (AdsSource) one.getObject();
         addUser.setAdsSource(object);
         User save = userRepository.save(addUser);
@@ -75,7 +76,7 @@ public class UserService {
         }
         User user = byId.get();
 
-        ApiResponse apiResponse = catalogFeignClient.getAdsSource(userDto.getAdsSourseId());
+        ApiResponse apiResponse = catalogFeignClient.getAdsSource(userDto.getAdsSourceId());
         user.setAdsSource((AdsSource) apiResponse.getObject());
         user.setGender(userDto.getGender());
         user.setFirstName(userDto.getFirstName());

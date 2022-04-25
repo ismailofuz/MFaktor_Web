@@ -29,7 +29,6 @@ public class PaymentTypeService {
             PaymentType paymentType = new PaymentType();
             paymentType.setPaymentColor(paymentColor);
             paymentType.setName(dto.getName());
-            paymentType.setActive(dto.isActive());
             PaymentType save = paymentTypeRepository.save(paymentType);
             return new ApiResponse("Added successfully", true, save);
 
