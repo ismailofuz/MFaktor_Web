@@ -59,13 +59,8 @@ public class UserController {
 
     @GetMapping("/{id}")
     public HttpEntity<?> getById(@PathVariable Long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (!optionalUser.isPresent()) {
-            return ResponseEntity.ok(new ApiResponse("Not found!", false));
-        } else {
-            User user = optionalUser.get();
-            return ResponseEntity.ok(new ApiResponse("Mana", true, user));
-        }
+        ApiResponse<User> response = userService.getOne(id);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/balance")
