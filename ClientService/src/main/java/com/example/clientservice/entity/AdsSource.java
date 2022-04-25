@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Setter
 @ToString
 @Entity
-public class AdsSource implements Serializable {
+public class AdsSource implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

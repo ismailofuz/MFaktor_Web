@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -14,6 +15,9 @@ import java.sql.Timestamp;
 @ToString
 @Entity(name = "users")
 public class User implements Serializable {
+
+//    @Serial
+//    private static final long serialVersionUID = -2744057715673660467L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -47,8 +51,8 @@ public class User implements Serializable {
 
     private boolean isActive = true;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private AdsSource adsSource;
+//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private AdsSource adsSource;
 
     public User(String password, String firstName, String lastName, String phoneNumber, String organization, Character gender) {
         this.password = password;
@@ -69,7 +73,5 @@ public class User implements Serializable {
         this.gender = gender;
         this.isActive = isActive;
     }
-// Advertise  bilan boglanadi
 
-    // EVENT bilan boglash
 }

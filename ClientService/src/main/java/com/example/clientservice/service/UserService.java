@@ -44,7 +44,7 @@ public class UserService {
         ApiResponse<AdsSource> response = catalogFeignClient.getAdsSource(user.getAdsSourceId());
         AdsSource adsSource = response.getObject();
 
-        addUser.setAdsSource(adsSource);
+//        addUser.setAdsSource(adsSource);
         User save = userRepository.save(addUser);
         return new ApiResponse("Registered", true);
     }
@@ -62,7 +62,7 @@ public class UserService {
         addUser.setPhoneNumber(user.getPhoneNumber());
         ApiResponse one = catalogFeignClient.getAdsSource(user.getAdsSourceId());
         AdsSource object = (AdsSource) one.getObject();
-        addUser.setAdsSource(object);
+//        addUser.setAdsSource(object);
         User save = userRepository.save(addUser);
 
         Payment payment = new Payment();
@@ -85,7 +85,7 @@ public class UserService {
         User user = byId.get();
 
         ApiResponse apiResponse = catalogFeignClient.getAdsSource(userDto.getAdsSourceId());
-        user.setAdsSource((AdsSource) apiResponse.getObject());
+//        user.setAdsSource((AdsSource) apiResponse.getObject());
         user.setGender(userDto.getGender());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -110,7 +110,7 @@ public class UserService {
         return new ApiResponse("All users By ChatId", true, userList);
     }
 
-    @Cacheable(value = "user", key = "#id")
+    @Cacheable(value = "User", key = "#id")
     public ApiResponse<User> getOne(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isEmpty()) {
