@@ -8,7 +8,6 @@ import com.example.clientservice.feignClient.CatalogFeignClient;
 import com.example.clientservice.payload.ApiResponse;
 import com.example.clientservice.payload.PaymentDto;
 import com.example.clientservice.payload.UserDto;
-import com.example.clientservice.repository.AdsSourceRepository;
 import com.example.clientservice.repository.PaymentRepository;
 import com.example.clientservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,70 +19,64 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    final CatalogFeignClient catalogFeignClient;
-    final UserRepository userRepository;
-    final PaymentRepository paymentRepository;
-    final PaymentTyPeRepository paymentTyPeRepository;
-    final AdsSourceRepository adsSourceRepository;
+    private final CatalogFeignClient catalogFeignClient;
+    private final UserRepository userRepository;
+    private final PaymentRepository paymentRepository;
 
-    public ApiResponse addUser(UserDto user){
+    public ApiResponse addUser(UserDto user) {
         if (userRepository.existsByPhoneNumber(user.getPhoneNumber())) {
-            return new ApiResponse("User with this phoneNumber already exists",false);
+            return new ApiResponse("User with this phoneNumber already exists", false);
         }
-        User addUser=new User();
+        User addUser = new User();
         addUser.setFirstName(user.getFirstName());
         addUser.setLastName(user.getLastName());
         addUser.setGender(user.getGender());
         addUser.setOrganization(user.getOrganization());
         addUser.setPassword(user.getPassword());
         addUser.setPhoneNumber(user.getPhoneNumber());
-        ApiResponse one = catalogFeignClient.getOne(user.getAdsSourseId());
+        ApiResponse one = catalogFeignClient.getAdsSource(user.getAdsSourseId());
         AdsSource object = (AdsSource) one.getObject();
         addUser.setAdsSource(object);
         User save = userRepository.save(addUser);
-        return new ApiResponse("Registered",true);
+        return new ApiResponse("Registered", true);
     }
 
     public ApiResponse paymentUser(UserDto user, PaymentDto paymentDto) {
         if (userRepository.existsByPhoneNumber(user.getPhoneNumber())) {
-            return new ApiResponse("User with this phoneNumber already exists",false);
+            return new ApiResponse("User with this phoneNumber already exists", false);
         }
-        User addUser=new User();
+        User addUser = new User();
         addUser.setFirstName(user.getFirstName());
         addUser.setLastName(user.getLastName());
         addUser.setGender(user.getGender());
         addUser.setOrganization(user.getOrganization());
         addUser.setPassword(user.getPassword());
         addUser.setPhoneNumber(user.getPhoneNumber());
-        ApiResponse one = catalogFeignClient.getOne(user.getAdsSourseId());
+        ApiResponse one = catalogFeignClient.getAdsSource(user.getAdsSourseId());
         AdsSource object = (AdsSource) one.getObject();
         addUser.setAdsSource(object);
         User save = userRepository.save(addUser);
 
-        Payment payment=new Payment();
+        Payment payment = new Payment();
         payment.setAmount(paymentDto.getAmount());
-        Optional<PaymentType> byId = paymentTyPeRepository.findById(paymentDto.getPaymentTypeId());
-        if(byId.isEmpty()){
-            return new ApiResponse("there is no paymentType",false);
-        }
-        payment.setPaymentType(byId.get());
+
+        ApiResponse apiResponse = catalogFeignClient.getPaymentType(paymentDto.getPaymentTypeId());
+        payment.setPaymentType((PaymentType) apiResponse.getObject());
         payment.setUser(addUser);
         payment.setDate(paymentDto.getDate());
         Payment save1 = paymentRepository.save(payment);
-        return new ApiResponse("Payment successfully fullfilled",true);
+        return new ApiResponse("Payment successfully fullfilled", true, save1);
     }
 
-    public ApiResponse editAppliedUser(Long id,UserDto userDto) {
+    public ApiResponse editAppliedUser(Long id, UserDto userDto) {
         Optional<User> byId = userRepository.findById(id);
-        if(byId.isEmpty()){
-            return new ApiResponse("No user found",false);
+        if (byId.isEmpty()) {
+            return new ApiResponse("No user found", false);
         }
         User user = byId.get();
-        Optional<AdsSource> byId1 = adsSourceRepository.findById(userDto.getAdsSourseId());
-        if(byId1.isEmpty()){
-            return new ApiResponse("No adsSource found",false);
-        }
-        user.setAdsSource(byId1.get());
+
+        ApiResponse apiResponse = catalogFeignClient.getAdsSource(userDto.getAdsSourseId());
+        user.setAdsSource((AdsSource) apiResponse.getObject());
         user.setGender(userDto.getGender());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -91,17 +84,17 @@ public class UserService {
         user.setOrganization(userDto.getOrganization());
         user.setPhoneNumber(userDto.getPhoneNumber());
         User save = userRepository.save(user);
-        return new ApiResponse("User successfully edited",true);
+        return new ApiResponse("User successfully edited", true);
 
     }
 
     public ApiResponse getAll() {
         List<User> all = userRepository.findAll();
-        return new ApiResponse("All users",true,all);
+        return new ApiResponse("All users", true, all);
     }
 
     public ApiResponse getAllByChatId() {
         List<User> userList = userRepository.findAllByChatIdNotNull();
-        return new ApiResponse("All users By ChatId",true,userList);
+        return new ApiResponse("All users By ChatId", true, userList);
     }
 }
