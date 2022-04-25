@@ -1,6 +1,6 @@
-package com.example.clientservice.repository;
+package com.example.catalogservice.repository;
 
-import com.example.clientservice.entity.PaymentType;
+import com.example.catalogservice.entity.PaymentType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PaymentTyPeRepository extends JpaRepository<PaymentType, Integer> {

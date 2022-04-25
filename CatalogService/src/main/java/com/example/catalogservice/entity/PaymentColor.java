@@ -20,4 +20,9 @@ public class PaymentColor {
 
     private String name;
     private String code;
+
+    public PaymentColor(String name, String code) {
+        this.name = name;
+        this.code = code;
+    }
 }

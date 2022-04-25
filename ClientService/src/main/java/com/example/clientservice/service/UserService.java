@@ -10,7 +10,6 @@ import com.example.clientservice.payload.PaymentDto;
 import com.example.clientservice.payload.UserDto;
 import com.example.clientservice.repository.AdsSourceRepository;
 import com.example.clientservice.repository.PaymentRepository;
-import com.example.clientservice.repository.PaymentTyPeRepository;
 import com.example.clientservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

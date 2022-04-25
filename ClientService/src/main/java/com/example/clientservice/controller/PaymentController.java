@@ -1,14 +1,10 @@
 package com.example.clientservice.controller;
 
 import com.example.clientservice.entity.Payment;
-import com.example.clientservice.entity.PaymentType;
 import com.example.clientservice.payload.ApiResponse;
 import com.example.clientservice.payload.PaymentDto;
-import com.example.clientservice.payload.PaymentTypeDto;
 import com.example.clientservice.repository.PaymentRepository;
-import com.example.clientservice.repository.PaymentTyPeRepository;
 import com.example.clientservice.service.PaymentService;
-import com.example.clientservice.service.PaymentTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;

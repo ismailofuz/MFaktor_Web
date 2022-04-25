@@ -1,12 +1,11 @@
-package com.example.clientservice.controller;
+package com.example.catalogservice.controller;
 
-import com.example.clientservice.entity.PaymentColor;
-import com.example.clientservice.payload.ApiResponse;
-import com.example.clientservice.repository.PaymentColorRepository;
-import com.example.clientservice.service.PaymentColorService;
+import com.example.catalogservice.entity.PaymentColor;
+import com.example.catalogservice.payload.ApiResponse;
+import com.example.catalogservice.repository.PaymentColorRepository;
+import com.example.catalogservice.service.PaymentColorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
