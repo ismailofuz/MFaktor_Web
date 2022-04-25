@@ -1,10 +1,12 @@
 package com.example.adminservice.service;
 
-import com.example.adminservice.entity.*;
+import com.example.adminservice.entity.Event;
+import com.example.adminservice.entity.Seat;
+import com.example.adminservice.entity.Template;
+import com.example.adminservice.entity.Visitor;
 import com.example.adminservice.entity.enums.Status;
 import com.example.adminservice.feignClient.ClientFeignClient;
 import com.example.adminservice.payload.ApiResponse;
-import com.example.adminservice.payload.EventInfoResp;
 import com.example.adminservice.payload.EventSeatResp;
 import com.example.adminservice.payload.SeatDto;
 import com.example.adminservice.repository.EventRepository;
@@ -21,16 +23,14 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class SeatService {
-
-    private final SeatRepository seatRepository;
-    private final EventRepository eventRepository;
-    private final TemplateRepository templateRepository;
-    private final ClientFeignClient clientFeignClient;
-
+    final SeatRepository seatRepository;
+    final EventRepository eventRepository;
+    final TemplateRepository templateRepository;
+     final ClientFeignClient clientFeignClient;
 
     public ApiResponse getAll() {
 
-        return new ApiResponse("Seates list", true, seatRepository.findAll());
+        return new ApiResponse("Seates list", true,seatRepository.findAll());
     }
 
     public ApiResponse getOne(Integer id) {
@@ -45,7 +45,7 @@ public class SeatService {
 
         seatDto.setName(seat.getName());
         seatDto.setBookedDate(seat.getBookedDate());
-        seatDto.setEventId(seat.getId());
+        seatDto.setEventId(seat.getEvent().getId());
         seatDto.setPrice(seat.getPrice());
         seatDto.setExpireDate(seat.getExpireDate());
         seatDto.setRaw(seat.getRaw());
@@ -79,6 +79,7 @@ public class SeatService {
         seat.setExpireDate(seatDto.getExpireDate());
         seat.setStatus(seatDto.getStatus());
         seat.setRaw(seatDto.getRaw());
+        seat.setEvent(event);
         seat.setTemplate(template);
 
         seatRepository.save(seat);
@@ -86,7 +87,7 @@ public class SeatService {
         return new ApiResponse("Successfully added", true);
     }
 
-    public ApiResponse update(Integer id, SeatDto seatDto) {
+    public ApiResponse update(Integer id , SeatDto seatDto) {
         //Event
         Integer eventId = seatDto.getEventId();
         Optional<Event> eventOptional = eventRepository.findById(eventId);
@@ -114,6 +115,7 @@ public class SeatService {
         seat.setExpireDate(seatDto.getExpireDate());
         seat.setStatus(seatDto.getStatus());
         seat.setRaw(seatDto.getRaw());
+        seat.setEvent(event);
         seat.setTemplate(template);
 
         seatRepository.save(seat);
@@ -131,9 +133,9 @@ public class SeatService {
         return new ApiResponse("Successfully deleted", true);
     }
 
-//    public ApiResponse getSeatsByEvent(Integer id) {
-//        return new ApiResponse("All seats by event",true,seatRepository.findAllByEvent_Id(id));
-//    }
+    public ApiResponse getSeatsByEvent(Integer id) {
+        return new ApiResponse("All seats by event",true,seatRepository.findAllByEvent_Id(id));
+    }
 
     public ApiResponse registerVisitor(Integer eventId, Integer seatId, EventSeatResp eventSeatResp) {
 
@@ -144,73 +146,8 @@ public class SeatService {
         String phoneNumber = eventSeatResp.getPhoneNumber();
 
 
+
         return null;
     }
 
-    public ApiResponse sell(Long userId, Integer eventId, Integer seatId, EventSeatResp eventSeatResp) {
-        ApiResponse apiResponse = clientFeignClient.checkVisitor(eventSeatResp.getPhoneNumber());
-        Optional<Seat> optionalSeat = seatRepository.findById(seatId);
-        Seat responseSeat = null;
-
-        if (apiResponse.isSuccess()) {
-            Seat seat = optionalSeat.get();
-            seat.setBookedDate(new Date());
-            seat.setVisitor((Visitor) apiResponse.getData());
-            //currentUserni aniqlab
-            ApiResponse response = clientFeignClient.getById(userId);
-            User currentUser = (User) response.getData();
-
-            Optional<Event> byId = eventRepository.findById(eventId);
-            if (!byId.isPresent()){
-                return new ApiResponse("Event not found",false);
-            }
-            Event event = byId.get();
-            if (currentUser.getBalance() > seat.getPrice()) {
-                double balance = currentUser.getBalance() - seat.getPrice();//balance o'zgardi
-
-                event.setSumma(event.getSumma()+seat.getPrice());
-                eventRepository.save(event);
-                clientFeignClient.changeBalance(balance, userId);
-                seat.setStatus(Status.SOLD);
-                //bunda sotib olindi
-            } else {
-                seat.setStatus(Status.BOOKED);
-                //shunchaki band qilindi
-            }
-            responseSeat = seatRepository.save(seat);
-        } else {
-            //TODO add yo'liga
-        }
-        return new ApiResponse(responseSeat.getStatus().toString(), true, responseSeat);
-    }
-
-    public ApiResponse getInfo(Integer eventId) {
-        EventInfoResp info;
-        Optional<Event> optionalEvent = eventRepository.findById(eventId);
-        if (optionalEvent.isPresent()) {
-            Event event = optionalEvent.get();
-            List<Seat> seatList = event.getSeats();
-
-            int size = event.getSeats().size();
-            info = new EventInfoResp();
-            info.setAllSeats(size);
-            info.setEvent(event);
-            info.setSeats(seatList);
-            int empty = 0;
-            for (Seat seat : seatList) {
-                if (seat.getStatus().equals(Status.EMPTY)) {
-                    empty++;
-                }
-            }
-// TODO payment qilingandan keyin togirlanadi
-
-            info.setSoldSeats(size - empty);
-            info.setEmptySeats(empty);
-            info.setSumm(event.getSumma());
-
-        } else {
-            return new ApiResponse("not found", false);
-        }
-        return new ApiResponse("Info",true,info);
-    }
 }
