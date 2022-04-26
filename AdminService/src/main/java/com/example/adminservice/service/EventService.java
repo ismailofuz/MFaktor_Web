@@ -68,7 +68,7 @@ public class EventService {
         // hamma foydalanuvchiga yuborish kerak
         //tadbirmni botga beryapmz
         //TODO
-//        botFeignClient.setAllMessage(event);
+        botFeignClient.setAllMessage(event);
 
         return new ApiResponse("Succesfully added", true);
     }

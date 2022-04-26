@@ -1,19 +1,26 @@
 package com.example.botservice.bot;
 
 
+import com.example.botservice.entity.AttachmentContent;
 import com.example.botservice.entity.Event;
 import com.example.botservice.entity.User;
+import com.example.botservice.feignClient.AdminFeignClient;
+import com.example.botservice.payload.ApiResponse;
 import com.example.botservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +33,9 @@ public class TelegramServiceImpl implements TelegramService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    private AdminFeignClient adminFeignClient;
 
 
     @Override
@@ -42,15 +52,13 @@ public class TelegramServiceImpl implements TelegramService {
         row.add(button);
         keyboardRowList.add(row);
         replyKeyboardMarkup.setKeyboard(keyboardRowList);
-        return SendMessage.builder()
-                .text("Xush kelibsiz !\nTelefon raqamingizni yuboring.").chatId(String.valueOf(update.getMessage().getChatId())).replyMarkup(replyKeyboardMarkup).build();
+        return SendMessage.builder().text("Xush kelibsiz !\nTelefon raqamingizni yuboring.").chatId(String.valueOf(update.getMessage().getChatId())).replyMarkup(replyKeyboardMarkup).build();
     }
 
 
     @Override
     public SendMessage enterPosition(Update update) {
-        return SendMessage.builder()
-                .text("Lavozimingizni kiriting: ").chatId(String.valueOf(update.getMessage().getChatId())).build();
+        return SendMessage.builder().text("Lavozimingizni kiriting: ").chatId(String.valueOf(update.getMessage().getChatId())).build();
     }
 
     @Override
@@ -80,13 +88,7 @@ public class TelegramServiceImpl implements TelegramService {
 
         replyKeyboardMarkup.setKeyboard(keyboardRowList);
 
-        return SendMessage.builder()
-                .text("Telefon nomer :\n" + user.getPhoneNumber() + "\n\n" +
-                        "FIO :\n" + user.getFullName() + "\n\n" +
-                        "Korxona nomi :\n" + user.getCompanyName() + "\n\n" +
-                        "Lavozimi :\n" + user.getPosition()
-                )
-                .chatId(String.valueOf(update.getMessage().getChatId())).replyMarkup(replyKeyboardMarkup).build();
+        return SendMessage.builder().text("Telefon nomer :\n" + user.getPhoneNumber() + "\n\n" + "FIO :\n" + user.getFullName() + "\n\n" + "Korxona nomi :\n" + user.getCompanyName() + "\n\n" + "Lavozimi :\n" + user.getPosition()).chatId(String.valueOf(update.getMessage().getChatId())).replyMarkup(replyKeyboardMarkup).build();
     }
 
     @Override
@@ -105,16 +107,28 @@ public class TelegramServiceImpl implements TelegramService {
 
     @Override
     public SendMessage enterCompanyName(Update update) {
-        return SendMessage.builder()
-                .text("Korxona nomini kiriting: ").chatId(String.valueOf(update.getMessage().getChatId())).build();
+        return SendMessage.builder().text("Korxona nomini kiriting: ").chatId(String.valueOf(update.getMessage().getChatId())).build();
     }
 
     @Override
     public SendMessage enterFullName(Update update) {
         ReplyKeyboardRemove replyKeyboardRemove = new ReplyKeyboardRemove();
         replyKeyboardRemove.setRemoveKeyboard(true);
-        return SendMessage.builder()
-                .text("Ism Familiyangizni kiriting.").chatId(String.valueOf(update.getMessage().getChatId())).replyMarkup(replyKeyboardRemove).build();
+        return SendMessage.builder().text("Ism Familiyangizni kiriting.").chatId(String.valueOf(update.getMessage().getChatId())).replyMarkup(replyKeyboardRemove).build();
+    }
+
+    @Override
+    public SendPhoto sendNotification(Long chatId, Event event) {
+            return SendPhoto.builder().photo(new InputFile("src/main/resources/mastava.jpg")).caption("yrhyrhy").chatId(String.valueOf(chatId)).build();
+//        ApiResponse attachmentById = adminFeignClient.getAttachmentById(event.getAttachment().getId());
+//        AttachmentContent attachmentContent = (AttachmentContent) attachmentById.getObject();
+//
+//        StringBuilder builder = new StringBuilder();
+//        builder.append(event.getName() + "\n")
+//                .append(event.getDescription() + "\n")
+//                .append(event.getStartTime()+"\n");
+//        return SendPhoto.builder().photo(new InputFile(String.valueOf(new ByteArrayInputStream(attachmentContent.getAsosiyContent())))).caption(builder.toString()).chatId(String.valueOf(chatId)).build();
+
     }
 
     @Override

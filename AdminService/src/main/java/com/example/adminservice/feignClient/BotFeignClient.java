@@ -13,6 +13,6 @@ public interface BotFeignClient {
 
 
     @PostMapping("/sendMessageUsers")
-    public void setAllMessage(@RequestBody Event event);
+    void setAllMessage(@RequestBody Event event);
 
 }

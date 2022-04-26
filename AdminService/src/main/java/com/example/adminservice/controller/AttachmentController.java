@@ -142,4 +142,11 @@ public class AttachmentController {
     public ApiResponse upload(MultipartHttpServletRequest request) {
         return attachmentService.upload(request);
     }
+
+    @GetMapping("/getAttachment/{id}")
+    public ApiResponse getByAttachmentId(@PathVariable Integer id){
+        Optional<AttachmentContent> byAttachmentId = attachmentContentRepository.findByAttachmentId(id);
+        AttachmentContent attachmentContent = byAttachmentId.get();
+        return new ApiResponse("Mana",true,attachmentContent);
+    }
 }
