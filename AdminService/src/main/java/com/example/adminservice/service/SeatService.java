@@ -4,6 +4,8 @@ import com.example.adminservice.entity.Event;
 import com.example.adminservice.entity.Seat;
 import com.example.adminservice.entity.Template;
 import com.example.adminservice.entity.Visitor;
+import com.example.adminservice.entity.enums.Status;
+import com.example.adminservice.feignClient.ClientFeignClient;
 import com.example.adminservice.payload.ApiResponse;
 import com.example.adminservice.payload.EventSeatResp;
 import com.example.adminservice.payload.SeatDto;
@@ -14,17 +16,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class SeatService {
-
     final SeatRepository seatRepository;
     final EventRepository eventRepository;
     final TemplateRepository templateRepository;
-
+     final ClientFeignClient clientFeignClient;
 
     public ApiResponse getAll() {
 
@@ -43,7 +45,7 @@ public class SeatService {
 
         seatDto.setName(seat.getName());
         seatDto.setBookedDate(seat.getBookedDate());
-        seatDto.setEventId(seat.getEvent().getId());
+//        seatDto.setEventId(seat.getEvent().getId());
         seatDto.setPrice(seat.getPrice());
         seatDto.setExpireDate(seat.getExpireDate());
         seatDto.setRaw(seat.getRaw());
@@ -77,7 +79,7 @@ public class SeatService {
         seat.setExpireDate(seatDto.getExpireDate());
         seat.setStatus(seatDto.getStatus());
         seat.setRaw(seatDto.getRaw());
-        seat.setEvent(event);
+//        seat.setEvent(event);
         seat.setTemplate(template);
 
         seatRepository.save(seat);
@@ -113,7 +115,7 @@ public class SeatService {
         seat.setExpireDate(seatDto.getExpireDate());
         seat.setStatus(seatDto.getStatus());
         seat.setRaw(seatDto.getRaw());
-        seat.setEvent(event);
+//        seat.setEvent(event);
         seat.setTemplate(template);
 
         seatRepository.save(seat);
@@ -131,9 +133,9 @@ public class SeatService {
         return new ApiResponse("Successfully deleted", true);
     }
 
-    public ApiResponse getSeatsByEvent(Integer id) {
-        return new ApiResponse("All seats by event",true,seatRepository.findAllByEvent_Id(id));
-    }
+//    public ApiResponse getSeatsByEvent(Integer id) {
+//        return new ApiResponse("All seats by event",true,seatRepository.findAllByEvent_Id(id));
+//    }
 
     public ApiResponse registerVisitor(Integer eventId, Integer seatId, EventSeatResp eventSeatResp) {
 
@@ -147,4 +149,5 @@ public class SeatService {
 
         return null;
     }
+
 }

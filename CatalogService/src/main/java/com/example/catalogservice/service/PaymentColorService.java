@@ -1,8 +1,8 @@
-package com.example.clientservice.service;
+package com.example.catalogservice.service;
 
-import com.example.clientservice.entity.PaymentColor;
-import com.example.clientservice.payload.ApiResponse;
-import com.example.clientservice.repository.PaymentColorRepository;
+import com.example.catalogservice.entity.PaymentColor;
+import com.example.catalogservice.payload.ApiResponse;
+import com.example.catalogservice.repository.PaymentColorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -50,9 +50,5 @@ public class PaymentColorService {
 
 
     }
-
-
-
-
 
 }

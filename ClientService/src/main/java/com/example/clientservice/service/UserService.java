@@ -8,11 +8,15 @@ import com.example.clientservice.feignClient.CatalogFeignClient;
 import com.example.clientservice.payload.ApiResponse;
 import com.example.clientservice.payload.PaymentDto;
 import com.example.clientservice.payload.UserDto;
-import com.example.clientservice.repository.AdsSourceRepository;
 import com.example.clientservice.repository.PaymentRepository;
-import com.example.clientservice.repository.PaymentTyPeRepository;
 import com.example.clientservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,70 +25,67 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    final CatalogFeignClient catalogFeignClient;
-    final UserRepository userRepository;
-    final PaymentRepository paymentRepository;
-    final PaymentTyPeRepository paymentTyPeRepository;
-    final AdsSourceRepository adsSourceRepository;
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
+    private final CatalogFeignClient catalogFeignClient;
+    private final UserRepository userRepository;
+    private final PaymentRepository paymentRepository;
 
-    public ApiResponse addUser(UserDto user){
+    public ApiResponse addUser(UserDto user) {
         if (userRepository.existsByPhoneNumber(user.getPhoneNumber())) {
-            return new ApiResponse("User with this phoneNumber already exists",false);
+            return new ApiResponse("User with this phoneNumber already exists", false);
         }
-        User addUser=new User();
+        User addUser = new User();
         addUser.setFirstName(user.getFirstName());
         addUser.setLastName(user.getLastName());
         addUser.setGender(user.getGender());
         addUser.setOrganization(user.getOrganization());
         addUser.setPassword(user.getPassword());
         addUser.setPhoneNumber(user.getPhoneNumber());
-        ApiResponse one = catalogFeignClient.getOne(user.getAdsSourseId());
-        AdsSource object = (AdsSource) one.getObject();
-        addUser.setAdsSource(object);
+        ApiResponse<AdsSource> response = catalogFeignClient.getAdsSource(user.getAdsSourceId());
+        AdsSource adsSource = response.getObject();
+
+//        addUser.setAdsSource(adsSource);
         User save = userRepository.save(addUser);
-        return new ApiResponse("Registered",true);
+        return new ApiResponse("Registered", true);
     }
 
     public ApiResponse paymentUser(UserDto user, PaymentDto paymentDto) {
         if (userRepository.existsByPhoneNumber(user.getPhoneNumber())) {
-            return new ApiResponse("User with this phoneNumber already exists",false);
+            return new ApiResponse("User with this phoneNumber already exists", false);
         }
-        User addUser=new User();
+        User addUser = new User();
         addUser.setFirstName(user.getFirstName());
         addUser.setLastName(user.getLastName());
         addUser.setGender(user.getGender());
         addUser.setOrganization(user.getOrganization());
         addUser.setPassword(user.getPassword());
         addUser.setPhoneNumber(user.getPhoneNumber());
-        ApiResponse one = catalogFeignClient.getOne(user.getAdsSourseId());
+        ApiResponse one = catalogFeignClient.getAdsSource(user.getAdsSourceId());
         AdsSource object = (AdsSource) one.getObject();
-        addUser.setAdsSource(object);
+//        addUser.setAdsSource(object);
         User save = userRepository.save(addUser);
 
-        Payment payment=new Payment();
+        Payment payment = new Payment();
         payment.setAmount(paymentDto.getAmount());
-        Optional<PaymentType> byId = paymentTyPeRepository.findById(paymentDto.getPaymentTypeId());
-        if(byId.isEmpty()){
-            return new ApiResponse("there is no paymentType",false);
-        }
-        payment.setPaymentType(byId.get());
+
+        ApiResponse apiResponse = catalogFeignClient.getPaymentType(paymentDto.getPaymentTypeId());
+        payment.setPaymentType((PaymentType) apiResponse.getObject());
         payment.setUser(addUser);
         payment.setDate(paymentDto.getDate());
         Payment save1 = paymentRepository.save(payment);
-        return new ApiResponse("Payment successfully fullfilled",true);
+        return new ApiResponse("Payment successfully fullfilled", true, save1);
     }
 
-    public ApiResponse editAppliedUser(Long id,UserDto userDto) {
+    //    @CachePut(value = "ketmon", key = "#userId")
+    public ApiResponse editAppliedUser(Long id, UserDto userDto) {
         Optional<User> byId = userRepository.findById(id);
-        if(byId.isEmpty()){
-            return new ApiResponse("No user found",false);
+        if (byId.isEmpty()) {
+            return new ApiResponse("No user found", false);
         }
         User user = byId.get();
-        Optional<AdsSource> byId1 = adsSourceRepository.findById(userDto.getAdsSourseId());
-        if(byId1.isEmpty()){
-            return new ApiResponse("No adsSource found",false);
-        }
-        user.setAdsSource(byId1.get());
+
+        ApiResponse apiResponse = catalogFeignClient.getAdsSource(userDto.getAdsSourceId());
+//        user.setAdsSource((AdsSource) apiResponse.getObject());
         user.setGender(userDto.getGender());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -92,17 +93,34 @@ public class UserService {
         user.setOrganization(userDto.getOrganization());
         user.setPhoneNumber(userDto.getPhoneNumber());
         User save = userRepository.save(user);
-        return new ApiResponse("User successfully edited",true);
+        return new ApiResponse("User successfully edited", true);
 
     }
 
+    //    @Cacheable(value = "ketmon", key = "#response")
     public ApiResponse getAll() {
+        LOG.info("Hammasi yaxshimi?");
         List<User> all = userRepository.findAll();
-        return new ApiResponse("All users",true,all);
+        return new ApiResponse("All users", true, all);
     }
 
+    //    @Cacheable(value = "ketmon", key = "#id")
     public ApiResponse getAllByChatId() {
         List<User> userList = userRepository.findAllByChatIdNotNull();
-        return new ApiResponse("All users By ChatId",true,userList);
+        return new ApiResponse("All users By ChatId", true, userList);
     }
+
+    @Cacheable(value = "User", key = "#id")
+    public ApiResponse<User> getOne(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty()) {
+            return new ApiResponse<User>("Not found!", false);
+        } else {
+            User user = optionalUser.get();
+            return new ApiResponse<User>("Mana", true, user);
+        }
+    }
+
+
+    //CacheEvict delete uchun
 }

@@ -19,5 +19,5 @@ public class UserDto {
 
     private Character gender;
 
-    private Integer adsSourseId;
+    private Integer adsSourceId;
 }

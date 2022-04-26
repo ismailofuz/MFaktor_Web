@@ -19,5 +19,6 @@ public class EventDto {
     private Integer speakerId;
     private String description;
     private Timestamp startTime;
-    private Boolean byPlace ;
+    private Boolean byPlace;
+    private Integer templateId;
 }

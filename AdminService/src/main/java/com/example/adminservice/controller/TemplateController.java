@@ -19,22 +19,21 @@ public class TemplateController {
     private final TemplateService templateService;
 
     /**
-     *  get one template
+     * get one template
+     *
      * @param id
      * @return
      */
-    @GetMapping("/oneTemplate/{id}")
-    public HttpEntity<?> one(@PathVariable Integer id){
+    @GetMapping("/{id}")
+    public HttpEntity<?> one(@PathVariable Integer id) {
         ApiResponse apiResponse = templateService.one(id);
 
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
 
     @PostMapping
-    public HttpEntity<?> add(@Valid @RequestBody TemplateDto dto){
+    public HttpEntity<?> add(@Valid @RequestBody TemplateDto dto) {
         ApiResponse apiResponse = templateService.add(dto);
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
-
-
 }

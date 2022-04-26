@@ -29,6 +29,9 @@ public class Event {
 
     private Timestamp startTime;
 
+    @Transient
+    private Double summa;
+
     private boolean byPlace = true;
 }
 

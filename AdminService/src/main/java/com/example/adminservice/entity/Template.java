@@ -31,7 +31,6 @@ public class Template {
 
     private Integer countOfChairsInRaw;
 
-
     private boolean priceByPlace;  // joy bo'yicha
 
     private Double maxPrice;

@@ -22,11 +22,8 @@ public class Payment {
 
     private Double amount;
 
-//    @Enumerated(EnumType.STRING)
-//    private PaymentType paymentType;
-
     @Temporal(TemporalType.TIMESTAMP)
-    private Date date=new Date();
+    private Date date = new Date();
     @ManyToOne
     private PaymentType paymentType;
 
