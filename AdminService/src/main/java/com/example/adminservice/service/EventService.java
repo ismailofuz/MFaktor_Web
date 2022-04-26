@@ -74,7 +74,11 @@ public class EventService {
     }
 
     public ApiResponse findById(Integer id) {
-        return new ApiResponse();
+        Optional<Event> optionalEvent = eventRepository.findById(id);
+        if (!optionalEvent.isPresent()) {
+            return new ApiResponse("Bunday id li event mavjud emas", false );
+        }
+        return new ApiResponse("Mana",true,optionalEvent.get());
     }
 
     public ApiResponse findAll() {
@@ -88,6 +92,6 @@ public class EventService {
             eventResponse.setSpeaker(event.getSpeaker().getFirstName() + " " + event.getSpeaker().getLastName());
             eventResponse.setStartTime(event.getStartTime());
         }
-        return new ApiResponse();
+        return new ApiResponse("Mana" , true,all);
     }
 }
