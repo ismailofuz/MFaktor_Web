@@ -1,18 +1,23 @@
 package com.example.adminservice.service;
 
-import com.example.adminservice.entity.*;
+import com.example.adminservice.entity.Attachment;
+import com.example.adminservice.entity.Event;
+import com.example.adminservice.entity.Speaker;
+import com.example.adminservice.entity.User;
 import com.example.adminservice.feignClient.BotFeignClient;
 import com.example.adminservice.feignClient.ClientFeignClient;
 import com.example.adminservice.payload.ApiResponse;
 import com.example.adminservice.payload.EventDto;
 import com.example.adminservice.payload.EventResponse;
-import com.example.adminservice.repository.*;
+import com.example.adminservice.repository.AttachmentRepository;
+import com.example.adminservice.repository.EventRepository;
+import com.example.adminservice.repository.SeatRepository;
+import com.example.adminservice.repository.SpeakerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,31 +25,23 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class EventService {
 
-    private final BotFeignClient botFeignClient;
-    private final EventRepository eventRepository;
-    private final AttachmentRepository attachmentRepository;
-    private final SpeakerRepository speakerRepository;
-    private final SeatRepository seatRepository;
-    private final TemplateRepository templateRepository;
-    private final ClientFeignClient clientFeignClient;
+    final BotFeignClient botFeignClient;
+    final EventRepository eventRepository;
+    final AttachmentRepository attachmentRepository;
+    final SpeakerRepository speakerRepository;
+    final SeatRepository seatRepository;
+
+    final ClientFeignClient clientFeignClient;
 
     public ApiResponse add(EventDto eventDto) {
 
-        Event event = new Event();
         Integer speakerId = eventDto.getSpeakerId();
         Optional<Speaker> speakerOptional = speakerRepository.findById(speakerId);
-        Optional<Template> optionalTemplate = templateRepository.findById(eventDto.getTemplateId());
-        if (!optionalTemplate.isPresent()) {
-            return new ApiResponse("There is no template in such an id", false);
-        }
         if (!speakerOptional.isPresent()) {
             return new ApiResponse("There is no speaker in such an id", false);
         }
         Speaker speaker = speakerOptional.get();
-        event.setSpeaker(speaker);
 
-        Event save = eventRepository.save(event);
-        Template template = optionalTemplate.get();
         Integer attachmentId = eventDto.getAttachmentId();
         Optional<Attachment> attachmentOptional = attachmentRepository.findById(attachmentId);
         Attachment attachment = attachmentOptional.get();
@@ -53,29 +50,35 @@ public class EventService {
         String name = eventDto.getName();
         Timestamp startTime = eventDto.getStartTime();
         Boolean byPlace = eventDto.getByPlace();
-        save.setAttachment(attachment);
-        save.setDescription(description);
-        save.setTemplate(template);
-        save.setName(name);
-        save.setStartTime(startTime);
-        save.setByPlace(byPlace);
 
 
-        List<Seat> allByTemplate_id = seatRepository.findAllByTemplate_Id(template.getId());
-        event.setSeats(allByTemplate_id);
-        eventRepository.save(save);
+        //TODO biriktirish kerak templatega
 
-        // hamma foydalanuvchiga yuborish kerak
+        Event event = new Event();
+        event.setSpeaker(speaker);
+        event.setAttachment(attachment);
+        event.setDescription(description);
+        event.setName(name);
+        event.setStartTime(startTime);
+        event.setByPlace(byPlace);
+
+
+        eventRepository.save(event);
+
+// hamma foydalanuvchiga yuborish kerak
         //tadbirmni botga beryapmz
-        //TODO
         botFeignClient.setAllMessage(event);
+
 
         return new ApiResponse("Succesfully added", true);
     }
 
     public ApiResponse findById(Integer id) {
-        return new ApiResponse();
-        //TODO qilish kerak
+        Optional<Event> optionalEvent = eventRepository.findById(id);
+        if (!optionalEvent.isPresent()) {
+            return new ApiResponse("Bunday id li event mavjud emas", false );
+        }
+        return new ApiResponse("Mana",true,optionalEvent.get());
     }
 
     public ApiResponse findAll() {
@@ -89,6 +92,6 @@ public class EventService {
             eventResponse.setSpeaker(event.getSpeaker().getFirstName() + " " + event.getSpeaker().getLastName());
             eventResponse.setStartTime(event.getStartTime());
         }
-        return new ApiResponse();
+        return new ApiResponse("Mana" , true,all);
     }
 }
