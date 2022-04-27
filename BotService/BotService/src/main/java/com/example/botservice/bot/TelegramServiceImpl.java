@@ -118,8 +118,13 @@ public class TelegramServiceImpl implements TelegramService {
     }
 
     @Override
+    public SendMessage sendXabar(Long chatId) {
+        return SendMessage.builder().chatId(String.valueOf(chatId)).text("Ketmon").build();
+    }
+
+    @Override
     public SendPhoto sendNotification(Long chatId, Event event) {
-            return SendPhoto.builder().photo(new InputFile("src/main/resources/mastava.jpg")).caption("yrhyrhy").chatId(String.valueOf(chatId)).build();
+        return SendPhoto.builder().photo(new InputFile(new File("C:\\PDP Lesson\\B9\\MFaktor_Web\\BotService\\BotService\\src\\main\\resources\\mastava.jpg"))).caption("Qanisan").chatId(String.valueOf(chatId)).build();
 //        ApiResponse attachmentById = adminFeignClient.getAttachmentById(event.getAttachment().getId());
 //        AttachmentContent attachmentContent = (AttachmentContent) attachmentById.getObject();
 //

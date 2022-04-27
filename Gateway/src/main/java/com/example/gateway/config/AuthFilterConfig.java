@@ -11,6 +11,8 @@ public class AuthFilterConfig implements Configurable<String> {
     }
 
     @Override
+
+
     public String newConfig() {
         return "Authorization";
     }

@@ -11,7 +11,9 @@ import java.util.List;
 
 public interface TelegramService {
 
-    SendPhoto sendNotification(Long chatId,Event event);
+    SendMessage sendXabar(Long chatId);
+
+    SendPhoto sendNotification(Long chatId, Event event);
 
     SendMessage menu(Update update);
 
