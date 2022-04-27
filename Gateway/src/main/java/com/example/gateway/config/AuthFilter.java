@@ -23,9 +23,11 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilterConfig> {
     AuthService authService;
     private static Logger log = LoggerFactory.getLogger(AuthFilter.class);
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings(value = "deprecation")
     @Override
     public GatewayFilter apply(final AuthFilterConfig config) {
+        System.out.println("Keldi!");
+        log.info("Keldi koorchi!");
         return (exchange, chain) -> {
             final ServerHttpRequest request = exchange.getRequest();
 
@@ -42,8 +44,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilterConfig> {
             final AuthTokenModel authTokenModel = getAuthorizationToken(apiValue);
             log.debug("Gateway Auth ApiKey {} JWT {}", apiValue, authTokenModel.getToken());
             try {
-                final ServerHttpRequest modifiedRequest = exchange.getRequest().mutate()
-                        .header("Authorization", authTokenModel.getType() + " " + authTokenModel.getToken()).build();
+                final ServerHttpRequest modifiedRequest = exchange.getRequest().mutate().header("Authorization", authTokenModel.getType() + " " + authTokenModel.getToken()).build();
                 return chain.filter(exchange.mutate().request(modifiedRequest).build());
             } catch (Exception e) {
                 log.error(e.getMessage());
