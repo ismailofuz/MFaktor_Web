@@ -6,5 +6,8 @@
         <language minSize="56" name="Java" />
       </Languages>
     </inspection_tool>
+    <inspection_tool class="LoggerInitializedWithForeignClass" enabled="true" level="TYPO" enabled_by_default="true">
+      <option name="loggerFactoryMethodName" value="getLogger,getLogger,getLog,getLogger" />
+    </inspection_tool>
   </profile>
 </component>

@@ -24,12 +24,17 @@ public class SpeakerController {
     final SpeakerRepository speakerRepository;
     final SpeakerService speakerService;
 
+    @GetMapping("/test")
+    public String test() {
+        return "Qanisan";
+    }
+
     @GetMapping
     public HttpEntity<?> getSpeakers(@RequestParam(defaultValue = "0") int size, @RequestParam(defaultValue = "0") int page) {
         if (size == 0 || page == 0) {
             List<Speaker> speakers = speakerRepository.findAllByActive(true);
             return ResponseEntity.ok().body(speakers);
-        }else{
+        } else {
             Pageable pageable = PageRequest.of(page, size);
             Page<Speaker> speakers = (Page<Speaker>) speakerRepository.findAllByActive(true, pageable);
             return ResponseEntity.ok().body(speakers);

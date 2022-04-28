@@ -32,6 +32,7 @@ public class BotController {
         for (User user : userList) {
             String chatId = user.getChatId();
             try {
+                mFaktorBot.execute(telegramService.sendXabar(Long.valueOf(chatId)));
                 mFaktorBot.execute(telegramService.sendNotification(Long.valueOf(chatId),event));
             } catch (TelegramApiException e) {
                 throw new RuntimeException(e);
