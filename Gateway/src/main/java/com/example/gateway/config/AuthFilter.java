@@ -30,11 +30,6 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilterConfig> {
         log.info("Keldi korochi!");
         return (exchange, chain) -> {
             final ServerHttpRequest request = exchange.getRequest();
-
-            if (request.getPath().equals("/auth/generate")) {
-                System.out.println("Bu yol ochiq");
-            }
-            {
                 final boolean authorization = request.getHeaders().containsKey("Authorization");
                 log.debug("authorization " + authorization);
 
@@ -54,7 +49,6 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilterConfig> {
                     log.error(e.getMessage());
                     return this.onError(exchange, "Modified Request " + e.getMessage(), HttpStatus.UNAUTHORIZED);
                 }
-            }
         };
     }
 
@@ -69,5 +63,4 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilterConfig> {
         log.debug("Gateway Auth ApiKey {}", apiValue);
         return authService.getJWTToken(apiValue);
     }
-
 }

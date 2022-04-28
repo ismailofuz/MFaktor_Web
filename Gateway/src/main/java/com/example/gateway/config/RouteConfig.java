@@ -19,13 +19,14 @@ public class RouteConfig {
     @Lazy
     AuthFilter authFilter;
 
+    //TODO ishlamayapti
 //    @Bean
 //    public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
 //        return builder.routes()
-//                .route(r -> r.path("/api/**")
+//                .route(r -> r.path("/api/admin/**")
 //                        .filters(f -> f.removeRequestHeader("Authorization")
 //                                .filter(authFilter.apply(new AuthFilterConfig())))
-//                                .uri("lb://ADMIN")).build();
+//                                .uri("localhost:8082/api/admin/**")).build();
 //    }
 }
 
