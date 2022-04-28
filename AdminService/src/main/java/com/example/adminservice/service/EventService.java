@@ -69,7 +69,6 @@ public class EventService {
         //tadbirmni botga beryapmz
         botFeignClient.setAllMessage(event);
 
-
         return new ApiResponse("Succesfully added", true);
     }
 

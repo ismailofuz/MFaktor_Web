@@ -20,5 +20,8 @@ spring:
           uri: lb://CLIENT
           predicates:
             - Path=/api/client/**
+#      filter:
+#        remove-request-header:
+#          enabled: true
 server:
   port: 8080
