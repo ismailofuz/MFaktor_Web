@@ -27,28 +27,33 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilterConfig> {
     @Override
     public GatewayFilter apply(final AuthFilterConfig config) {
         System.out.println("Keldi!");
-        log.info("Keldi koorchi!");
+        log.info("Keldi korochi!");
         return (exchange, chain) -> {
             final ServerHttpRequest request = exchange.getRequest();
 
-            final boolean authorization = request.getHeaders().containsKey("Authorization");
-            log.debug("authorization " + authorization);
+            if (request.getPath().equals("/auth/generate")) {
+                System.out.println("Bu yol ochiq");
+            }
+            {
+                final boolean authorization = request.getHeaders().containsKey("Authorization");
+                log.debug("authorization " + authorization);
 
-            if (!request.getHeaders().containsKey("apikey"))
-                return this.onError(exchange, "No API KEY header", HttpStatus.UNAUTHORIZED);
+                if (!request.getHeaders().containsKey("apikey"))
+                    return this.onError(exchange, "No API KEY header", HttpStatus.UNAUTHORIZED);
 
-            final String apiValue = request.getHeaders().get("apikey").get(0);
-            if (StringUtils.isEmpty(apiValue))
-                return this.onError(exchange, "Invalid API KEY", HttpStatus.UNAUTHORIZED);
+                final String apiValue = request.getHeaders().get("apikey").get(0);
+                if (StringUtils.isEmpty(apiValue))
+                    return this.onError(exchange, "Invalid API KEY", HttpStatus.UNAUTHORIZED);
 
-            final AuthTokenModel authTokenModel = getAuthorizationToken(apiValue);
-            log.debug("Gateway Auth ApiKey {} JWT {}", apiValue, authTokenModel.getToken());
-            try {
-                final ServerHttpRequest modifiedRequest = exchange.getRequest().mutate().header("Authorization", authTokenModel.getType() + " " + authTokenModel.getToken()).build();
-                return chain.filter(exchange.mutate().request(modifiedRequest).build());
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                return this.onError(exchange, "Modified Request " + e.getMessage(), HttpStatus.UNAUTHORIZED);
+                final AuthTokenModel authTokenModel = getAuthorizationToken(apiValue);
+                log.debug("Gateway Auth ApiKey {} JWT {}", apiValue, authTokenModel.getToken());
+                try {
+                    final ServerHttpRequest modifiedRequest = exchange.getRequest().mutate().header("Authorization", authTokenModel.getType() + " " + authTokenModel.getToken()).build();
+                    return chain.filter(exchange.mutate().request(modifiedRequest).build());
+                } catch (Exception e) {
+                    log.error(e.getMessage());
+                    return this.onError(exchange, "Modified Request " + e.getMessage(), HttpStatus.UNAUTHORIZED);
+                }
             }
         };
     }

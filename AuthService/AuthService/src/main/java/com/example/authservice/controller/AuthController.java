@@ -14,11 +14,9 @@ public class AuthController {
     //authService
     private final AuthService authService;
 
-
-    @GetMapping(value = "generate", produces = "application/json")
+    @GetMapping(value = "/generate", produces = "application/json")
     public ResponseEntity<?> getJWTToken(@RequestHeader("apiKey") String apiKey) {
 //        authService chaqiriladi
         return ResponseEntity.ok(authService.validateApiKeyAndGetJwtToken(apiKey));
     }
-
 }

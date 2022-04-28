@@ -19,14 +19,13 @@ public class RouteConfig {
     @Lazy
     AuthFilter authFilter;
 
-
-    @Bean
-    public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
-        return builder.routes()
-                .route(r -> r.path("/api/admin/**")
-                        .filters(f -> f.removeRequestHeader("Authorization")
-                                .filter(authFilter.apply(new AuthFilterConfig())))
-                                .uri("lb://ADMIN")).build();
-    }
+//    @Bean
+//    public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
+//        return builder.routes()
+//                .route(r -> r.path("/api/**")
+//                        .filters(f -> f.removeRequestHeader("Authorization")
+//                                .filter(authFilter.apply(new AuthFilterConfig())))
+//                                .uri("lb://ADMIN")).build();
+//    }
 }
 

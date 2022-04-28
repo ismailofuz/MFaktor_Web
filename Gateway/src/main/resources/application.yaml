@@ -20,6 +20,10 @@ spring:
           uri: lb://CLIENT
           predicates:
             - Path=/api/client/**
+        - id: authModule
+          uri: lb://AUTH
+          predicates:
+            - Path=/auth/**
 #      filter:
 #        remove-request-header:
 #          enabled: true
